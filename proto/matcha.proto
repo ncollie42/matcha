@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package matcha;
+
+service Person {
+  rpc create (createRequest) returns (Reply);
+  // rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
+
+  // create
+  // delete
+  // login
+  // edditeProfile
+  //   individual functions to eddit??
+}
+
+message createRequest{
+  string name = 1;
+  string email = 2;
+}
+
+message HelloRequest {
+  string name = 1;
+}
+
+message Reply {
+  string message = 1;
+}
