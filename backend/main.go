@@ -54,11 +54,12 @@ func (*personService) Create(ctx context.Context, req *generated.CreateRequest) 
 	if !userDataisValid(req) {
 		return &generated.Reply{Message: "invalid data"}, nil
 	}
+	userName := req.GetUserName()
 	email := req.GetEmail()
 	firstName := req.GetFirsName()
 	lastName := req.GetLastName()
 	pass := req.GetPassword()
-	tmp := fmt.Sprintf("Created user: %s %s\nEmail: %s\nPassword: %s", firstName, lastName, email, pass)
+	tmp := fmt.Sprintf("Username: %s\nCreated user: %s %s\nEmail: %s\nPassword: %s", userName, firstName, lastName, email, pass)
 	fmt.Println(tmp)
 	return &generated.Reply{Message: tmp}, nil
 }

@@ -32,10 +32,11 @@ message person{
 }
 
 message createRequest{
-  string firsName = 1;
-  string lastName = 2;
-  string password = 3;
-  string email = 4;
+  string userName = 1;
+  string firsName = 2;
+  string lastName = 3;
+  string password = 4;
+  string email = 5;
 }
 
 message Reply {
