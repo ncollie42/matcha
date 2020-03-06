@@ -2,21 +2,21 @@ syntax = "proto3";
 
 package matcha;
 
-service Person {
+service Account {
   rpc createUser (createRequest) returns (Reply);
-  // rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
-  rpc getUsers (createRequest) returns(stream person);
-  // create
-  // delete
+  rpc getUsers (createRequest) returns(stream User);
+  // getuser
+  // deleteUser
+  // updateUser
   // login
-  // edditeProfile
+  // updateUser
   // getImage( for when on profile?)
   //   individual functions to eddit??
 }
 
-message person{
-  int64 UID = 1;
-  string firsName = 2;
+message User {
+  int64 ID = 1;
+  string firstName = 2;
   string lastName = 3;
   string password = 4;
   string email = 5;
@@ -29,14 +29,17 @@ message person{
   //array of tags
   //location
   //pictures??
+//  google.protobuf.Timestamp created_at = 5;
+//  google.protobuf.Timestamp updated_at = 6;
 }
 
 message createRequest{
-  string userName = 1;
-  string firsName = 2;
-  string lastName = 3;
-  string password = 4;
-  string email = 5;
+    int64 id = 1;
+  string userName = 2;
+  string firsName = 3;
+  string lastName = 4;
+  string password = 5;
+  string email = 6;
 }
 
 message Reply {

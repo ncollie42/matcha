@@ -24,9 +24,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type Person struct {
-	UID                  int64    `protobuf:"varint,1,opt,name=UID,proto3" json:"UID,omitempty"`
-	FirsName             string   `protobuf:"bytes,2,opt,name=firsName,proto3" json:"firsName,omitempty"`
+type User struct {
+	ID                   int64    `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	FirstName            string   `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
 	LastName             string   `protobuf:"bytes,3,opt,name=lastName,proto3" json:"lastName,omitempty"`
 	Password             string   `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
 	Email                string   `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
@@ -35,60 +35,60 @@ type Person struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *Person) Reset()         { *m = Person{} }
-func (m *Person) String() string { return proto.CompactTextString(m) }
-func (*Person) ProtoMessage()    {}
-func (*Person) Descriptor() ([]byte, []int) {
+func (m *User) Reset()         { *m = User{} }
+func (m *User) String() string { return proto.CompactTextString(m) }
+func (*User) ProtoMessage()    {}
+func (*User) Descriptor() ([]byte, []int) {
 	return fileDescriptor_bb514d74c502fc4f, []int{0}
 }
 
-func (m *Person) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_Person.Unmarshal(m, b)
+func (m *User) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_User.Unmarshal(m, b)
 }
-func (m *Person) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_Person.Marshal(b, m, deterministic)
+func (m *User) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_User.Marshal(b, m, deterministic)
 }
-func (m *Person) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Person.Merge(m, src)
+func (m *User) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_User.Merge(m, src)
 }
-func (m *Person) XXX_Size() int {
-	return xxx_messageInfo_Person.Size(m)
+func (m *User) XXX_Size() int {
+	return xxx_messageInfo_User.Size(m)
 }
-func (m *Person) XXX_DiscardUnknown() {
-	xxx_messageInfo_Person.DiscardUnknown(m)
+func (m *User) XXX_DiscardUnknown() {
+	xxx_messageInfo_User.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Person proto.InternalMessageInfo
+var xxx_messageInfo_User proto.InternalMessageInfo
 
-func (m *Person) GetUID() int64 {
+func (m *User) GetID() int64 {
 	if m != nil {
-		return m.UID
+		return m.ID
 	}
 	return 0
 }
 
-func (m *Person) GetFirsName() string {
+func (m *User) GetFirstName() string {
 	if m != nil {
-		return m.FirsName
+		return m.FirstName
 	}
 	return ""
 }
 
-func (m *Person) GetLastName() string {
+func (m *User) GetLastName() string {
 	if m != nil {
 		return m.LastName
 	}
 	return ""
 }
 
-func (m *Person) GetPassword() string {
+func (m *User) GetPassword() string {
 	if m != nil {
 		return m.Password
 	}
 	return ""
 }
 
-func (m *Person) GetEmail() string {
+func (m *User) GetEmail() string {
 	if m != nil {
 		return m.Email
 	}
@@ -96,11 +96,12 @@ func (m *Person) GetEmail() string {
 }
 
 type CreateRequest struct {
-	UserName             string   `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName,omitempty"`
-	FirsName             string   `protobuf:"bytes,2,opt,name=firsName,proto3" json:"firsName,omitempty"`
-	LastName             string   `protobuf:"bytes,3,opt,name=lastName,proto3" json:"lastName,omitempty"`
-	Password             string   `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
-	Email                string   `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
+	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	UserName             string   `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName,omitempty"`
+	FirsName             string   `protobuf:"bytes,3,opt,name=firsName,proto3" json:"firsName,omitempty"`
+	LastName             string   `protobuf:"bytes,4,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Password             string   `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
+	Email                string   `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -130,6 +131,13 @@ func (m *CreateRequest) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_CreateRequest proto.InternalMessageInfo
+
+func (m *CreateRequest) GetId() int64 {
+	if m != nil {
+		return m.Id
+	}
+	return 0
+}
 
 func (m *CreateRequest) GetUserName() string {
 	if m != nil {
@@ -206,7 +214,7 @@ func (m *Reply) GetMessage() string {
 }
 
 func init() {
-	proto.RegisterType((*Person)(nil), "matcha.person")
+	proto.RegisterType((*User)(nil), "matcha.User")
 	proto.RegisterType((*CreateRequest)(nil), "matcha.createRequest")
 	proto.RegisterType((*Reply)(nil), "matcha.Reply")
 }
@@ -214,22 +222,24 @@ func init() {
 func init() { proto.RegisterFile("matcha.proto", fileDescriptor_bb514d74c502fc4f) }
 
 var fileDescriptor_bb514d74c502fc4f = []byte{
-	// 236 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x91, 0x4f, 0x4a, 0x43, 0x31,
-	0x10, 0x87, 0x89, 0xcf, 0x17, 0xeb, 0x60, 0x45, 0x82, 0x42, 0xe8, 0xaa, 0x76, 0xd5, 0x55, 0x91,
-	0xf6, 0x0a, 0x6e, 0xdc, 0x88, 0x04, 0x7a, 0x80, 0xb1, 0x8e, 0xb5, 0xf0, 0x62, 0xd2, 0x4c, 0x8a,
-	0xb8, 0xf7, 0x0a, 0xde, 0x57, 0x92, 0x31, 0x82, 0x0b, 0xb7, 0xee, 0xf2, 0xe5, 0x63, 0x7e, 0xcc,
-	0x1f, 0x38, 0xf3, 0x98, 0x37, 0x2f, 0xb8, 0x88, 0x29, 0xe4, 0x60, 0xb4, 0xd0, 0xec, 0x43, 0x81,
-	0x8e, 0x94, 0x38, 0xbc, 0x9a, 0x0b, 0xe8, 0xd6, 0x77, 0xb7, 0x56, 0x4d, 0xd5, 0xbc, 0x73, 0xe5,
-	0x69, 0x26, 0x30, 0x7a, 0xde, 0x25, 0xbe, 0x47, 0x4f, 0xf6, 0x68, 0xaa, 0xe6, 0xa7, 0xee, 0x87,
-	0x8b, 0x1b, 0x90, 0x73, 0x75, 0x9d, 0xb8, 0xc6, 0xc5, 0x45, 0x64, 0x7e, 0x0b, 0xe9, 0xc9, 0x1e,
-	0x8b, 0x6b, 0x6c, 0x2e, 0xa1, 0x27, 0x8f, 0xbb, 0xc1, 0xf6, 0x55, 0x08, 0xcc, 0x3e, 0x15, 0x8c,
-	0x37, 0x89, 0x30, 0x93, 0xa3, 0xfd, 0x81, 0x38, 0x97, 0x8c, 0x03, 0x53, 0xaa, 0xf9, 0x4a, 0x32,
-	0x1a, 0xff, 0x63, 0x5f, 0xd7, 0xd0, 0x3b, 0x8a, 0xc3, 0xbb, 0xb1, 0x70, 0xe2, 0x89, 0x19, 0xb7,
-	0xad, 0x9b, 0x86, 0xcb, 0x3d, 0xe8, 0x07, 0x59, 0xe0, 0x12, 0x40, 0x66, 0x58, 0x33, 0x25, 0x73,
-	0xb5, 0xf8, 0x5e, 0xf8, 0xaf, 0xb9, 0x26, 0xe3, 0xf6, 0x2d, 0xb9, 0x2b, 0x18, 0x6d, 0x29, 0x97,
-	0x02, 0xfe, 0xab, 0xe2, 0xbc, 0x7d, 0xcb, 0x9d, 0x6e, 0xd4, 0xa3, 0xae, 0x37, 0x5c, 0x7d, 0x05,
-	0x00, 0x00, 0xff, 0xff, 0x68, 0x20, 0xe7, 0xd9, 0xd3, 0x01, 0x00, 0x00,
+	// 263 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x91, 0xb1, 0x4e, 0xc3, 0x30,
+	0x10, 0x86, 0xe5, 0x34, 0x49, 0x9b, 0x53, 0xcb, 0x60, 0x81, 0x64, 0x55, 0x0c, 0xa5, 0x53, 0xa7,
+	0x0a, 0xca, 0x13, 0x20, 0x75, 0xe9, 0xc2, 0x60, 0x89, 0x07, 0x30, 0xc9, 0x51, 0x22, 0x25, 0xc4,
+	0xf8, 0x1c, 0x21, 0x56, 0xde, 0x85, 0xf7, 0x44, 0xb6, 0xeb, 0x92, 0x0e, 0xed, 0xf8, 0xdd, 0xef,
+	0x3b, 0x7d, 0x77, 0x86, 0x69, 0xab, 0x6c, 0xf9, 0xae, 0xd6, 0xda, 0x74, 0xb6, 0xe3, 0x79, 0xa0,
+	0xe5, 0x0f, 0x83, 0xf4, 0x85, 0xd0, 0xf0, 0x2b, 0x48, 0x76, 0x5b, 0xc1, 0x16, 0x6c, 0x35, 0x92,
+	0xc9, 0x6e, 0xcb, 0x6f, 0xa1, 0x78, 0xab, 0x0d, 0xd9, 0x67, 0xd5, 0xa2, 0x48, 0x16, 0x6c, 0x55,
+	0xc8, 0xff, 0x02, 0x9f, 0xc3, 0xa4, 0x51, 0x87, 0x70, 0xe4, 0xc3, 0x23, 0xbb, 0x4c, 0x2b, 0xa2,
+	0xaf, 0xce, 0x54, 0x22, 0x0d, 0x59, 0x64, 0x7e, 0x0d, 0x19, 0xb6, 0xaa, 0x6e, 0x44, 0xe6, 0x83,
+	0x00, 0xcb, 0x5f, 0x06, 0xb3, 0xd2, 0xa0, 0xb2, 0x28, 0xf1, 0xb3, 0x47, 0xb2, 0xce, 0xa6, 0xae,
+	0xa2, 0x4d, 0x5d, 0xb9, 0x99, 0x3d, 0xa1, 0x19, 0xc8, 0x1c, 0xd9, 0x65, 0x4e, 0x6c, 0xe8, 0x12,
+	0xf9, 0xc4, 0x33, 0xbd, 0xe0, 0x99, 0x9d, 0xf3, 0xcc, 0x87, 0x9e, 0x77, 0x90, 0x49, 0xd4, 0xcd,
+	0x37, 0x17, 0x30, 0x6e, 0x91, 0x48, 0xed, 0xd1, 0x3b, 0x16, 0x32, 0xe2, 0x46, 0xc3, 0xf8, 0xa9,
+	0x2c, 0xbb, 0xfe, 0xc3, 0xf2, 0x0d, 0x40, 0x58, 0xca, 0xdf, 0xf7, 0x66, 0x7d, 0xb8, 0xff, 0xc9,
+	0xa2, 0xf3, 0x59, 0x2c, 0x87, 0xc1, 0x0f, 0x30, 0xd9, 0xa3, 0x75, 0x0d, 0x74, 0xae, 0x63, 0x1a,
+	0xcb, 0xee, 0xd5, 0x3d, 0x7b, 0xcd, 0xfd, 0x87, 0x3e, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x8f,
+	0x02, 0xd0, 0x79, 0xe0, 0x01, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -240,38 +250,38 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// PersonClient is the client API for Person service.
+// AccountClient is the client API for Account service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
-type PersonClient interface {
+type AccountClient interface {
 	CreateUser(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Reply, error)
 	// rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
-	GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Person_GetUsersClient, error)
+	GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Account_GetUsersClient, error)
 }
 
-type personClient struct {
+type accountClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewPersonClient(cc *grpc.ClientConn) PersonClient {
-	return &personClient{cc}
+func NewAccountClient(cc *grpc.ClientConn) AccountClient {
+	return &accountClient{cc}
 }
 
-func (c *personClient) CreateUser(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Reply, error) {
+func (c *accountClient) CreateUser(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Reply, error) {
 	out := new(Reply)
-	err := c.cc.Invoke(ctx, "/matcha.Person/createUser", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/matcha.Account/createUser", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *personClient) GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Person_GetUsersClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Person_serviceDesc.Streams[0], "/matcha.Person/getUsers", opts...)
+func (c *accountClient) GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Account_GetUsersClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Account_serviceDesc.Streams[0], "/matcha.Account/getUsers", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &personGetUsersClient{stream}
+	x := &accountGetUsersClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -281,97 +291,97 @@ func (c *personClient) GetUsers(ctx context.Context, in *CreateRequest, opts ...
 	return x, nil
 }
 
-type Person_GetUsersClient interface {
-	Recv() (*Person, error)
+type Account_GetUsersClient interface {
+	Recv() (*User, error)
 	grpc.ClientStream
 }
 
-type personGetUsersClient struct {
+type accountGetUsersClient struct {
 	grpc.ClientStream
 }
 
-func (x *personGetUsersClient) Recv() (*Person, error) {
-	m := new(Person)
+func (x *accountGetUsersClient) Recv() (*User, error) {
+	m := new(User)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
 	return m, nil
 }
 
-// PersonServer is the server API for Person service.
-type PersonServer interface {
+// AccountServer is the server API for Account service.
+type AccountServer interface {
 	CreateUser(context.Context, *CreateRequest) (*Reply, error)
 	// rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
-	GetUsers(*CreateRequest, Person_GetUsersServer) error
+	GetUsers(*CreateRequest, Account_GetUsersServer) error
 }
 
-// UnimplementedPersonServer can be embedded to have forward compatible implementations.
-type UnimplementedPersonServer struct {
+// UnimplementedAccountServer can be embedded to have forward compatible implementations.
+type UnimplementedAccountServer struct {
 }
 
-func (*UnimplementedPersonServer) CreateUser(ctx context.Context, req *CreateRequest) (*Reply, error) {
+func (*UnimplementedAccountServer) CreateUser(ctx context.Context, req *CreateRequest) (*Reply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateUser not implemented")
 }
-func (*UnimplementedPersonServer) GetUsers(req *CreateRequest, srv Person_GetUsersServer) error {
+func (*UnimplementedAccountServer) GetUsers(req *CreateRequest, srv Account_GetUsersServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
 }
 
-func RegisterPersonServer(s *grpc.Server, srv PersonServer) {
-	s.RegisterService(&_Person_serviceDesc, srv)
+func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
+	s.RegisterService(&_Account_serviceDesc, srv)
 }
 
-func _Person_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Account_CreateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(CreateRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PersonServer).CreateUser(ctx, in)
+		return srv.(AccountServer).CreateUser(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/matcha.Person/CreateUser",
+		FullMethod: "/matcha.Account/CreateUser",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PersonServer).CreateUser(ctx, req.(*CreateRequest))
+		return srv.(AccountServer).CreateUser(ctx, req.(*CreateRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Person_GetUsers_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Account_GetUsers_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(CreateRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(PersonServer).GetUsers(m, &personGetUsersServer{stream})
+	return srv.(AccountServer).GetUsers(m, &accountGetUsersServer{stream})
 }
 
-type Person_GetUsersServer interface {
-	Send(*Person) error
+type Account_GetUsersServer interface {
+	Send(*User) error
 	grpc.ServerStream
 }
 
-type personGetUsersServer struct {
+type accountGetUsersServer struct {
 	grpc.ServerStream
 }
 
-func (x *personGetUsersServer) Send(m *Person) error {
+func (x *accountGetUsersServer) Send(m *User) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-var _Person_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "matcha.Person",
-	HandlerType: (*PersonServer)(nil),
+var _Account_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "matcha.Account",
+	HandlerType: (*AccountServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "createUser",
-			Handler:    _Person_CreateUser_Handler,
+			Handler:    _Account_CreateUser_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "getUsers",
-			Handler:       _Person_GetUsers_Handler,
+			Handler:       _Account_GetUsers_Handler,
 			ServerStreams: true,
 		},
 	},
