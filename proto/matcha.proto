@@ -3,25 +3,39 @@ syntax = "proto3";
 package matcha;
 
 service Person {
-  rpc create (createRequest) returns (Reply);
+  rpc createUser (createRequest) returns (Reply);
   // rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
-
+  rpc getUsers (createRequest) returns(stream person);
   // create
   // delete
   // login
   // edditeProfile
+  // getImage( for when on profile?)
   //   individual functions to eddit??
 }
 
-message createRequest{
-  string name = 1;
-  string password = 2;
-  string email = 3;
-
+message person{
+  int64 UID = 1;
+  string firsName = 2;
+  string lastName = 3;
+  string password = 4;
+  string email = 5;
+  //gender [enum]
+  //preference [enum]
+  //bio
+  //fame rating
+  //array of recently view
+  //Array of liked people
+  //array of tags
+  //location
+  //pictures??
 }
 
-message HelloRequest {
-  string name = 1;
+message createRequest{
+  string firsName = 1;
+  string lastName = 2;
+  string password = 3;
+  string email = 4;
 }
 
 message Reply {

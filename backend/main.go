@@ -8,6 +8,7 @@ import (
 	"log"
 	"net"
 
+	//pg "github.com/go-pb/pg"
 	generated "hazuki/generated"
 )
 
@@ -32,15 +33,45 @@ func main() {
 type personService struct{
 	generated.UnimplementedPersonServer
 }
-func (*personService) Create(ctx context.Context, req *generated.CreateRequest) (*generated.Reply, error) {
-	email := req.GetEmail()
-	name := req.GetName()
+//Return error?
+func userDataisValid(req *generated.CreateRequest) bool {
+	if req.GetEmail() == "" {
+		return false;
+	}
+	if req.GetFirsName() == "" {
+		return false;
+	}
+	if req.GetLastName() == "" {
+		return false;
+	}
+	if req.GetPassword() == "" {
+		return false;
+	}
+	return true;
+}
 
-	tmp := fmt.Sprintf("Created user: %s\nEmail: %s", name, email)
+func (*personService) Create(ctx context.Context, req *generated.CreateRequest) (*generated.Reply, error) {
+	if !userDataisValid(req) {
+		return &generated.Reply{Message: "invalid data"}, nil
+	}
+	email := req.GetEmail()
+	firstName := req.GetFirsName()
+	lastName := req.GetLastName()
+	pass := req.GetPassword()
+	tmp := fmt.Sprintf("Created user: %s %s\nEmail: %s\nPassword: %s", firstName, lastName, email, pass)
 	fmt.Println(tmp)
 	return &generated.Reply{Message: tmp}, nil
 }
 
+func (*personService) GetUsers(_ *generated.CreateRequest,stream generated.Person_GetUsersServer) error {
+	for _, person := range personDB {
+		stream.Send(person)
+	}
+	return nil
+}
+//TODO: validate input (no empty field)
+//TODO: Hash password
+//TODO: 
 //
 //type greeterService struct{}
 //
