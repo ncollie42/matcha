@@ -5,27 +5,27 @@ import (
 )
 var personDB = []*generated.User {
 	{
-		ID:  1,
 		FirstName: "bill",
 		LastName: "boby",
 		Password:  "aaasdf",
 		Email: "this@gmail.com",
 	},
 	{
-		ID:  2,
 		FirstName: "sam",
 		LastName: "boby",
 		Password:  "aaasdf",
 		Email: "this@gmail.com",
 	},
 	{
-		ID:  3,
 		FirstName: "Hazu",
 		LastName: "boby",
 		Password:  "aaasdf",
 		Email: "this@gmail.com",
 	},
 }
+
+
+
 //Get users from DB
 //var tmp []generated.CreateRequest
 //err := db.Model(&tmp).Select()

@@ -24,12 +24,58 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type VerifyRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Hash                 string   `protobuf:"bytes,2,opt,name=hash,proto3" json:"hash,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *VerifyRequest) Reset()         { *m = VerifyRequest{} }
+func (m *VerifyRequest) String() string { return proto.CompactTextString(m) }
+func (*VerifyRequest) ProtoMessage()    {}
+func (*VerifyRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bb514d74c502fc4f, []int{0}
+}
+
+func (m *VerifyRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_VerifyRequest.Unmarshal(m, b)
+}
+func (m *VerifyRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_VerifyRequest.Marshal(b, m, deterministic)
+}
+func (m *VerifyRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_VerifyRequest.Merge(m, src)
+}
+func (m *VerifyRequest) XXX_Size() int {
+	return xxx_messageInfo_VerifyRequest.Size(m)
+}
+func (m *VerifyRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_VerifyRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_VerifyRequest proto.InternalMessageInfo
+
+func (m *VerifyRequest) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+func (m *VerifyRequest) GetHash() string {
+	if m != nil {
+		return m.Hash
+	}
+	return ""
+}
+
 type User struct {
-	ID                   int64    `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	FirstName            string   `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
-	LastName             string   `protobuf:"bytes,3,opt,name=lastName,proto3" json:"lastName,omitempty"`
-	Password             string   `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
-	Email                string   `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
+	FirstName            string   `protobuf:"bytes,1,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName             string   `protobuf:"bytes,2,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Password             string   `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
+	Email                string   `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -39,7 +85,7 @@ func (m *User) Reset()         { *m = User{} }
 func (m *User) String() string { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()    {}
 func (*User) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{0}
+	return fileDescriptor_bb514d74c502fc4f, []int{1}
 }
 
 func (m *User) XXX_Unmarshal(b []byte) error {
@@ -59,13 +105,6 @@ func (m *User) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_User proto.InternalMessageInfo
-
-func (m *User) GetID() int64 {
-	if m != nil {
-		return m.ID
-	}
-	return 0
-}
 
 func (m *User) GetFirstName() string {
 	if m != nil {
@@ -96,12 +135,11 @@ func (m *User) GetEmail() string {
 }
 
 type CreateRequest struct {
-	Id                   int64    `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	UserName             string   `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName,omitempty"`
-	FirsName             string   `protobuf:"bytes,3,opt,name=firsName,proto3" json:"firsName,omitempty"`
-	LastName             string   `protobuf:"bytes,4,opt,name=lastName,proto3" json:"lastName,omitempty"`
-	Password             string   `protobuf:"bytes,5,opt,name=password,proto3" json:"password,omitempty"`
-	Email                string   `protobuf:"bytes,6,opt,name=email,proto3" json:"email,omitempty"`
+	UserName             string   `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName,omitempty"`
+	FirstName            string   `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName             string   `protobuf:"bytes,3,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Password             string   `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
+	Email                string   `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -111,7 +149,7 @@ func (m *CreateRequest) Reset()         { *m = CreateRequest{} }
 func (m *CreateRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateRequest) ProtoMessage()    {}
 func (*CreateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{1}
+	return fileDescriptor_bb514d74c502fc4f, []int{2}
 }
 
 func (m *CreateRequest) XXX_Unmarshal(b []byte) error {
@@ -132,13 +170,6 @@ func (m *CreateRequest) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_CreateRequest proto.InternalMessageInfo
 
-func (m *CreateRequest) GetId() int64 {
-	if m != nil {
-		return m.Id
-	}
-	return 0
-}
-
 func (m *CreateRequest) GetUserName() string {
 	if m != nil {
 		return m.UserName
@@ -146,9 +177,9 @@ func (m *CreateRequest) GetUserName() string {
 	return ""
 }
 
-func (m *CreateRequest) GetFirsName() string {
+func (m *CreateRequest) GetFirstName() string {
 	if m != nil {
-		return m.FirsName
+		return m.FirstName
 	}
 	return ""
 }
@@ -185,7 +216,7 @@ func (m *Reply) Reset()         { *m = Reply{} }
 func (m *Reply) String() string { return proto.CompactTextString(m) }
 func (*Reply) ProtoMessage()    {}
 func (*Reply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{2}
+	return fileDescriptor_bb514d74c502fc4f, []int{3}
 }
 
 func (m *Reply) XXX_Unmarshal(b []byte) error {
@@ -214,6 +245,7 @@ func (m *Reply) GetMessage() string {
 }
 
 func init() {
+	proto.RegisterType((*VerifyRequest)(nil), "matcha.verifyRequest")
 	proto.RegisterType((*User)(nil), "matcha.User")
 	proto.RegisterType((*CreateRequest)(nil), "matcha.createRequest")
 	proto.RegisterType((*Reply)(nil), "matcha.Reply")
@@ -222,24 +254,24 @@ func init() {
 func init() { proto.RegisterFile("matcha.proto", fileDescriptor_bb514d74c502fc4f) }
 
 var fileDescriptor_bb514d74c502fc4f = []byte{
-	// 263 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x91, 0xb1, 0x4e, 0xc3, 0x30,
-	0x10, 0x86, 0xe5, 0x34, 0x49, 0x9b, 0x53, 0xcb, 0x60, 0x81, 0x64, 0x55, 0x0c, 0xa5, 0x53, 0xa7,
-	0x0a, 0xca, 0x13, 0x20, 0x75, 0xe9, 0xc2, 0x60, 0x89, 0x07, 0x30, 0xc9, 0x51, 0x22, 0x25, 0xc4,
-	0xf8, 0x1c, 0x21, 0x56, 0xde, 0x85, 0xf7, 0x44, 0xb6, 0xeb, 0x92, 0x0e, 0xed, 0xf8, 0xdd, 0xef,
-	0x3b, 0x7d, 0x77, 0x86, 0x69, 0xab, 0x6c, 0xf9, 0xae, 0xd6, 0xda, 0x74, 0xb6, 0xe3, 0x79, 0xa0,
-	0xe5, 0x0f, 0x83, 0xf4, 0x85, 0xd0, 0xf0, 0x2b, 0x48, 0x76, 0x5b, 0xc1, 0x16, 0x6c, 0x35, 0x92,
-	0xc9, 0x6e, 0xcb, 0x6f, 0xa1, 0x78, 0xab, 0x0d, 0xd9, 0x67, 0xd5, 0xa2, 0x48, 0x16, 0x6c, 0x55,
-	0xc8, 0xff, 0x02, 0x9f, 0xc3, 0xa4, 0x51, 0x87, 0x70, 0xe4, 0xc3, 0x23, 0xbb, 0x4c, 0x2b, 0xa2,
-	0xaf, 0xce, 0x54, 0x22, 0x0d, 0x59, 0x64, 0x7e, 0x0d, 0x19, 0xb6, 0xaa, 0x6e, 0x44, 0xe6, 0x83,
-	0x00, 0xcb, 0x5f, 0x06, 0xb3, 0xd2, 0xa0, 0xb2, 0x28, 0xf1, 0xb3, 0x47, 0xb2, 0xce, 0xa6, 0xae,
-	0xa2, 0x4d, 0x5d, 0xb9, 0x99, 0x3d, 0xa1, 0x19, 0xc8, 0x1c, 0xd9, 0x65, 0x4e, 0x6c, 0xe8, 0x12,
-	0xf9, 0xc4, 0x33, 0xbd, 0xe0, 0x99, 0x9d, 0xf3, 0xcc, 0x87, 0x9e, 0x77, 0x90, 0x49, 0xd4, 0xcd,
-	0x37, 0x17, 0x30, 0x6e, 0x91, 0x48, 0xed, 0xd1, 0x3b, 0x16, 0x32, 0xe2, 0x46, 0xc3, 0xf8, 0xa9,
-	0x2c, 0xbb, 0xfe, 0xc3, 0xf2, 0x0d, 0x40, 0x58, 0xca, 0xdf, 0xf7, 0x66, 0x7d, 0xb8, 0xff, 0xc9,
-	0xa2, 0xf3, 0x59, 0x2c, 0x87, 0xc1, 0x0f, 0x30, 0xd9, 0xa3, 0x75, 0x0d, 0x74, 0xae, 0x63, 0x1a,
-	0xcb, 0xee, 0xd5, 0x3d, 0x7b, 0xcd, 0xfd, 0x87, 0x3e, 0xfe, 0x05, 0x00, 0x00, 0xff, 0xff, 0x8f,
-	0x02, 0xd0, 0x79, 0xe0, 0x01, 0x00, 0x00,
+	// 272 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0xc1, 0x4e, 0x83, 0x40,
+	0x10, 0x86, 0xb3, 0x2d, 0xb4, 0x74, 0x52, 0x2e, 0x1b, 0x4d, 0x08, 0xf1, 0xa0, 0x9c, 0x3c, 0x35,
+	0x5a, 0x4f, 0x1e, 0x7d, 0x01, 0x0f, 0x24, 0x3e, 0xc0, 0x88, 0xd3, 0x42, 0x02, 0x82, 0x3b, 0x8b,
+	0xa6, 0x4f, 0xe2, 0x0b, 0xf8, 0xa0, 0x06, 0x96, 0x6d, 0xd9, 0x26, 0xe5, 0xc6, 0xff, 0x0f, 0x3f,
+	0xff, 0xb7, 0xcc, 0xc2, 0xba, 0x42, 0x9d, 0xe5, 0xb8, 0x69, 0x54, 0xad, 0x6b, 0xb9, 0x30, 0x2a,
+	0x79, 0x86, 0xf0, 0x9b, 0x54, 0xb1, 0x3b, 0xa4, 0xf4, 0xd5, 0x12, 0x6b, 0x79, 0x05, 0x3e, 0x55,
+	0x58, 0x94, 0x91, 0xb8, 0x15, 0xf7, 0xab, 0xd4, 0x08, 0x29, 0xc1, 0xcb, 0x91, 0xf3, 0x68, 0xd6,
+	0x9b, 0xfd, 0x73, 0xa2, 0xc0, 0x7b, 0x63, 0x52, 0xf2, 0x06, 0x56, 0xbb, 0x42, 0xb1, 0x7e, 0xc5,
+	0x8a, 0x86, 0xd4, 0xc9, 0x90, 0x31, 0x04, 0x25, 0x0e, 0x43, 0x93, 0x3e, 0xea, 0x6e, 0xd6, 0x20,
+	0xf3, 0x4f, 0xad, 0x3e, 0xa2, 0xb9, 0x99, 0x59, 0x7d, 0xe2, 0xf0, 0x46, 0x1c, 0xc9, 0xaf, 0x80,
+	0x30, 0x53, 0x84, 0x9a, 0x2c, 0x6f, 0x0c, 0x41, 0xcb, 0xa4, 0x46, 0xe5, 0x47, 0xed, 0x92, 0xcd,
+	0xa6, 0xc8, 0xe6, 0x13, 0x64, 0xde, 0x25, 0x32, 0x7f, 0x4c, 0x76, 0x07, 0x7e, 0x4a, 0x4d, 0x79,
+	0x90, 0x11, 0x2c, 0x2b, 0x62, 0xc6, 0xbd, 0xe5, 0xb1, 0x72, 0xfb, 0x27, 0x60, 0xf9, 0x92, 0x65,
+	0x75, 0xfb, 0xa9, 0xe5, 0x16, 0xc0, 0x9c, 0xa3, 0xff, 0x85, 0xd7, 0x9b, 0x61, 0x39, 0xce, 0xd9,
+	0xe2, 0xd0, 0xda, 0xe6, 0xcb, 0x8f, 0x10, 0xec, 0x49, 0x77, 0x01, 0xbe, 0x94, 0x58, 0x5b, 0xbb,
+	0x7b, 0xeb, 0x41, 0x74, 0x35, 0x66, 0xbd, 0x6e, 0x8d, 0xb3, 0xf2, 0xb3, 0x9a, 0xf7, 0x45, 0x7f,
+	0x43, 0x9e, 0xfe, 0x03, 0x00, 0x00, 0xff, 0xff, 0xff, 0xb0, 0xea, 0x15, 0x31, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -255,8 +287,8 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type AccountClient interface {
 	CreateUser(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Reply, error)
-	// rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
 	GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Account_GetUsersClient, error)
+	VerifyUser(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*Reply, error)
 }
 
 type accountClient struct {
@@ -308,11 +340,20 @@ func (x *accountGetUsersClient) Recv() (*User, error) {
 	return m, nil
 }
 
+func (c *accountClient) VerifyUser(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, "/matcha.Account/verifyUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServer is the server API for Account service.
 type AccountServer interface {
 	CreateUser(context.Context, *CreateRequest) (*Reply, error)
-	// rpc SayHelloAlot (HazukiRequest) returns (stream HelloReply);
 	GetUsers(*CreateRequest, Account_GetUsersServer) error
+	VerifyUser(context.Context, *VerifyRequest) (*Reply, error)
 }
 
 // UnimplementedAccountServer can be embedded to have forward compatible implementations.
@@ -324,6 +365,9 @@ func (*UnimplementedAccountServer) CreateUser(ctx context.Context, req *CreateRe
 }
 func (*UnimplementedAccountServer) GetUsers(req *CreateRequest, srv Account_GetUsersServer) error {
 	return status.Errorf(codes.Unimplemented, "method GetUsers not implemented")
+}
+func (*UnimplementedAccountServer) VerifyUser(ctx context.Context, req *VerifyRequest) (*Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyUser not implemented")
 }
 
 func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
@@ -369,6 +413,24 @@ func (x *accountGetUsersServer) Send(m *User) error {
 	return x.ServerStream.SendMsg(m)
 }
 
+func _Account_VerifyUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(VerifyRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).VerifyUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matcha.Account/VerifyUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).VerifyUser(ctx, req.(*VerifyRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Account_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "matcha.Account",
 	HandlerType: (*AccountServer)(nil),
@@ -376,6 +438,10 @@ var _Account_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "createUser",
 			Handler:    _Account_CreateUser_Handler,
+		},
+		{
+			MethodName: "verifyUser",
+			Handler:    _Account_VerifyUser_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

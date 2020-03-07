@@ -5,6 +5,7 @@ package matcha;
 service Account {
   rpc createUser (createRequest) returns (Reply);
   rpc getUsers (createRequest) returns(stream User);
+  rpc verifyUser (verifyRequest) returns(Reply);
   // getuser
   // deleteUser
   // updateUser
@@ -14,12 +15,15 @@ service Account {
   //   individual functions to eddit??
 }
 
+message verifyRequest {
+  string email = 1;
+  string hash = 2;
+}
 message User {
-  int64 ID = 1;
-  string firstName = 2;
-  string lastName = 3;
-  string password = 4;
-  string email = 5;
+  string firstName = 1;
+  string lastName = 2;
+  string password = 3;
+  string email = 4;
   //gender [enum]
   //preference [enum]
   //bio
@@ -34,14 +38,14 @@ message User {
 }
 
 message createRequest{
-    int64 id = 1;
-  string userName = 2;
-  string firsName = 3;
-  string lastName = 4;
-  string password = 5;
-  string email = 6;
+  string userName = 1;
+  string firstName = 2;
+  string lastName = 3;
+  string password = 4;
+  string email = 5;
 }
 
 message Reply {
   string message = 1;
+  bool status = 2;
 }

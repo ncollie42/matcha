@@ -25,7 +25,7 @@ func createDBtables(db *pg.DB) {
 	if err != nil {
 		log.Println("Error while creating table", err)
 	}
-	err = db.CreateTable(&generated.CreateRequest{}, opts)
+	err = db.CreateTable(&user.CreateRequest{}, opts)
 	if err != nil {
 		log.Println("Error while creating table", err)
 	}
@@ -44,6 +44,9 @@ func connectPostgress() *pg.DB{
 
 
 func main() {
+	if os.Getenv("PASS") == "" {
+		log.Fatal("Env 'PASS' not set: password needed for sending emails")
+	}
 	//Tmp flag chose -> move to flag
 	port := ":4242"
 	if len(os.Args) == 2 {
