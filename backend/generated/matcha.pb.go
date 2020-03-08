@@ -49,7 +49,140 @@ func (x User_Gender) String() string {
 }
 
 func (User_Gender) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{2, 0}
+	return fileDescriptor_bb514d74c502fc4f, []int{5, 0}
+}
+
+type ImageData struct {
+	Image                []byte   `protobuf:"bytes,1,opt,name=image,proto3" json:"image,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ImageData) Reset()         { *m = ImageData{} }
+func (m *ImageData) String() string { return proto.CompactTextString(m) }
+func (*ImageData) ProtoMessage()    {}
+func (*ImageData) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bb514d74c502fc4f, []int{0}
+}
+
+func (m *ImageData) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ImageData.Unmarshal(m, b)
+}
+func (m *ImageData) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ImageData.Marshal(b, m, deterministic)
+}
+func (m *ImageData) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ImageData.Merge(m, src)
+}
+func (m *ImageData) XXX_Size() int {
+	return xxx_messageInfo_ImageData.Size(m)
+}
+func (m *ImageData) XXX_DiscardUnknown() {
+	xxx_messageInfo_ImageData.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ImageData proto.InternalMessageInfo
+
+func (m *ImageData) GetImage() []byte {
+	if m != nil {
+		return m.Image
+	}
+	return nil
+}
+
+type SendEmailRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *SendEmailRequest) Reset()         { *m = SendEmailRequest{} }
+func (m *SendEmailRequest) String() string { return proto.CompactTextString(m) }
+func (*SendEmailRequest) ProtoMessage()    {}
+func (*SendEmailRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bb514d74c502fc4f, []int{1}
+}
+
+func (m *SendEmailRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SendEmailRequest.Unmarshal(m, b)
+}
+func (m *SendEmailRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SendEmailRequest.Marshal(b, m, deterministic)
+}
+func (m *SendEmailRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SendEmailRequest.Merge(m, src)
+}
+func (m *SendEmailRequest) XXX_Size() int {
+	return xxx_messageInfo_SendEmailRequest.Size(m)
+}
+func (m *SendEmailRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_SendEmailRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_SendEmailRequest proto.InternalMessageInfo
+
+func (m *SendEmailRequest) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+type ResetPassRequest struct {
+	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	NewPass              string   `protobuf:"bytes,2,opt,name=newPass,proto3" json:"newPass,omitempty"`
+	Hash                 string   `protobuf:"bytes,3,opt,name=hash,proto3" json:"hash,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *ResetPassRequest) Reset()         { *m = ResetPassRequest{} }
+func (m *ResetPassRequest) String() string { return proto.CompactTextString(m) }
+func (*ResetPassRequest) ProtoMessage()    {}
+func (*ResetPassRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bb514d74c502fc4f, []int{2}
+}
+
+func (m *ResetPassRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ResetPassRequest.Unmarshal(m, b)
+}
+func (m *ResetPassRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ResetPassRequest.Marshal(b, m, deterministic)
+}
+func (m *ResetPassRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ResetPassRequest.Merge(m, src)
+}
+func (m *ResetPassRequest) XXX_Size() int {
+	return xxx_messageInfo_ResetPassRequest.Size(m)
+}
+func (m *ResetPassRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_ResetPassRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_ResetPassRequest proto.InternalMessageInfo
+
+func (m *ResetPassRequest) GetEmail() string {
+	if m != nil {
+		return m.Email
+	}
+	return ""
+}
+
+func (m *ResetPassRequest) GetNewPass() string {
+	if m != nil {
+		return m.NewPass
+	}
+	return ""
+}
+
+func (m *ResetPassRequest) GetHash() string {
+	if m != nil {
+		return m.Hash
+	}
+	return ""
 }
 
 type LoginRequest struct {
@@ -64,7 +197,7 @@ func (m *LoginRequest) Reset()         { *m = LoginRequest{} }
 func (m *LoginRequest) String() string { return proto.CompactTextString(m) }
 func (*LoginRequest) ProtoMessage()    {}
 func (*LoginRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{0}
+	return fileDescriptor_bb514d74c502fc4f, []int{3}
 }
 
 func (m *LoginRequest) XXX_Unmarshal(b []byte) error {
@@ -111,7 +244,7 @@ func (m *VerifyRequest) Reset()         { *m = VerifyRequest{} }
 func (m *VerifyRequest) String() string { return proto.CompactTextString(m) }
 func (*VerifyRequest) ProtoMessage()    {}
 func (*VerifyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{1}
+	return fileDescriptor_bb514d74c502fc4f, []int{4}
 }
 
 func (m *VerifyRequest) XXX_Unmarshal(b []byte) error {
@@ -155,6 +288,7 @@ type User struct {
 	Gender               User_Gender `protobuf:"varint,6,opt,name=gender,proto3,enum=matcha.User_Gender" json:"gender,omitempty"`
 	Preference           User_Gender `protobuf:"varint,7,opt,name=preference,proto3,enum=matcha.User_Gender" json:"preference,omitempty"`
 	Bio                  string      `protobuf:"bytes,8,opt,name=bio,proto3" json:"bio,omitempty"`
+	Hash                 string      `protobuf:"bytes,9,opt,name=hash,proto3" json:"hash,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
 	XXX_unrecognized     []byte      `json:"-"`
 	XXX_sizecache        int32       `json:"-"`
@@ -164,7 +298,7 @@ func (m *User) Reset()         { *m = User{} }
 func (m *User) String() string { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()    {}
 func (*User) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{2}
+	return fileDescriptor_bb514d74c502fc4f, []int{5}
 }
 
 func (m *User) XXX_Unmarshal(b []byte) error {
@@ -241,6 +375,13 @@ func (m *User) GetBio() string {
 	return ""
 }
 
+func (m *User) GetHash() string {
+	if m != nil {
+		return m.Hash
+	}
+	return ""
+}
+
 type CreateRequest struct {
 	UserName             string   `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName,omitempty"`
 	FirstName            string   `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
@@ -256,7 +397,7 @@ func (m *CreateRequest) Reset()         { *m = CreateRequest{} }
 func (m *CreateRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateRequest) ProtoMessage()    {}
 func (*CreateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{3}
+	return fileDescriptor_bb514d74c502fc4f, []int{6}
 }
 
 func (m *CreateRequest) XXX_Unmarshal(b []byte) error {
@@ -314,7 +455,6 @@ func (m *CreateRequest) GetEmail() string {
 
 type Reply struct {
 	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
-	Status               bool     `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -324,7 +464,7 @@ func (m *Reply) Reset()         { *m = Reply{} }
 func (m *Reply) String() string { return proto.CompactTextString(m) }
 func (*Reply) ProtoMessage()    {}
 func (*Reply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{4}
+	return fileDescriptor_bb514d74c502fc4f, []int{7}
 }
 
 func (m *Reply) XXX_Unmarshal(b []byte) error {
@@ -352,15 +492,11 @@ func (m *Reply) GetMessage() string {
 	return ""
 }
 
-func (m *Reply) GetStatus() bool {
-	if m != nil {
-		return m.Status
-	}
-	return false
-}
-
 func init() {
 	proto.RegisterEnum("matcha.User_Gender", User_Gender_name, User_Gender_value)
+	proto.RegisterType((*ImageData)(nil), "matcha.imageData")
+	proto.RegisterType((*SendEmailRequest)(nil), "matcha.sendEmailRequest")
+	proto.RegisterType((*ResetPassRequest)(nil), "matcha.resetPassRequest")
 	proto.RegisterType((*LoginRequest)(nil), "matcha.loginRequest")
 	proto.RegisterType((*VerifyRequest)(nil), "matcha.verifyRequest")
 	proto.RegisterType((*User)(nil), "matcha.User")
@@ -371,31 +507,38 @@ func init() {
 func init() { proto.RegisterFile("matcha.proto", fileDescriptor_bb514d74c502fc4f) }
 
 var fileDescriptor_bb514d74c502fc4f = []byte{
-	// 383 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x53, 0x4b, 0x6e, 0xea, 0x30,
-	0x14, 0x7d, 0x81, 0x10, 0xc2, 0x15, 0x3c, 0x21, 0x3f, 0x5e, 0x15, 0xa1, 0x0e, 0x50, 0x46, 0x48,
-	0x95, 0x10, 0x85, 0x11, 0xc3, 0x4e, 0xda, 0x59, 0x07, 0x91, 0xba, 0x00, 0x13, 0x6e, 0x3e, 0x52,
-	0x7e, 0xb5, 0x9d, 0x56, 0xac, 0xa4, 0x9b, 0xe8, 0x7a, 0xba, 0x9e, 0xca, 0x76, 0x5c, 0x12, 0x24,
-	0xaa, 0x8e, 0x3a, 0xf3, 0xf1, 0xf1, 0xf1, 0x39, 0xbe, 0xbe, 0x17, 0xc6, 0x39, 0x15, 0x61, 0x42,
-	0x57, 0x15, 0x2b, 0x45, 0x49, 0x1c, 0x8d, 0xfc, 0x7b, 0x18, 0x67, 0x65, 0x9c, 0x16, 0x01, 0x3e,
-	0xd7, 0xc8, 0x05, 0x99, 0x83, 0x5b, 0x73, 0x64, 0x8f, 0x34, 0x47, 0xcf, 0x5a, 0x58, 0xcb, 0x51,
-	0xf0, 0x85, 0x25, 0x57, 0x51, 0xce, 0x5f, 0x4b, 0x76, 0xf0, 0x7a, 0x9a, 0x33, 0xd8, 0xdf, 0xc1,
-	0xe4, 0x05, 0x59, 0x1a, 0x1d, 0xcd, 0x45, 0x33, 0x18, 0x60, 0x4e, 0xd3, 0xac, 0xb9, 0x45, 0x03,
-	0x42, 0xc0, 0x4e, 0x28, 0x4f, 0x1a, 0xb9, 0x5a, 0xfb, 0xef, 0x3d, 0xb0, 0x9f, 0x38, 0xb2, 0x6f,
-	0xbd, 0xaf, 0x61, 0x14, 0xa5, 0x8c, 0x0b, 0x45, 0x6a, 0xf5, 0x69, 0x43, 0x2a, 0x33, 0xda, 0x90,
-	0x7d, 0xad, 0x34, 0xb8, 0x93, 0xda, 0xee, 0xa6, 0x3e, 0x85, 0x1c, 0xb4, 0x43, 0xde, 0x80, 0x13,
-	0x63, 0x71, 0x40, 0xe6, 0x39, 0x0b, 0x6b, 0xf9, 0x77, 0xf3, 0x6f, 0xd5, 0x94, 0x4e, 0xa6, 0x5c,
-	0x3d, 0x28, 0x2a, 0x68, 0x8e, 0x90, 0x2d, 0x40, 0xc5, 0x30, 0x42, 0x86, 0x45, 0x88, 0xde, 0xf0,
-	0xb2, 0xa0, 0x75, 0x8c, 0x4c, 0xa1, 0xbf, 0x4f, 0x4b, 0xcf, 0x55, 0xae, 0x72, 0xe9, 0x2f, 0xc1,
-	0xd1, 0xe7, 0x88, 0x0b, 0x76, 0x4e, 0x33, 0x9c, 0xfe, 0x21, 0x00, 0x4e, 0x84, 0x6a, 0x6d, 0xc9,
-	0xdd, 0x7d, 0x29, 0x92, 0x69, 0xcf, 0x7f, 0xb3, 0x60, 0x12, 0x32, 0xa4, 0x02, 0x7f, 0xf2, 0x67,
-	0xbf, 0x58, 0x37, 0x7f, 0x07, 0x83, 0x00, 0xab, 0xec, 0x48, 0x3c, 0x18, 0xe6, 0xc8, 0x39, 0x8d,
-	0x4d, 0x1e, 0x03, 0xc9, 0x15, 0x38, 0x5c, 0x50, 0x51, 0x73, 0x95, 0xc5, 0x0d, 0x1a, 0xb4, 0xf9,
-	0xb0, 0x60, 0x78, 0x17, 0x86, 0x65, 0x5d, 0x08, 0xb2, 0x01, 0xd0, 0xef, 0x53, 0x4d, 0xf1, 0xdf,
-	0xd4, 0xb2, 0xf3, 0xe6, 0xf9, 0xc4, 0x6c, 0x6b, 0xc7, 0x5b, 0x70, 0x63, 0x14, 0x52, 0xc0, 0x2f,
-	0x29, 0xc6, 0xed, 0x4f, 0x59, 0x5b, 0xd2, 0x46, 0x77, 0x6c, 0xd7, 0xa6, 0xd3, 0xc5, 0xe7, 0x36,
-	0x6b, 0x18, 0xa9, 0x69, 0x51, 0x92, 0x99, 0xe1, 0xda, 0x03, 0x74, 0xa6, 0xd8, 0x3b, 0x6a, 0xdc,
-	0xb6, 0x9f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x60, 0xc9, 0xfd, 0xa4, 0x7e, 0x03, 0x00, 0x00,
+	// 494 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x54, 0xcd, 0x6e, 0xd4, 0x30,
+	0x10, 0x26, 0xfb, 0x93, 0xdd, 0x8c, 0x76, 0xab, 0x60, 0x8a, 0x14, 0xad, 0x38, 0xb4, 0x39, 0x2d,
+	0x42, 0x5a, 0x95, 0xed, 0xa9, 0x07, 0x0e, 0x48, 0x14, 0x6e, 0x08, 0x45, 0xc0, 0xdd, 0x9b, 0x9d,
+	0xfc, 0x48, 0x49, 0x1c, 0x6c, 0x87, 0xaa, 0x4f, 0xc2, 0x5b, 0xf0, 0x0c, 0x3c, 0x1a, 0xb2, 0x1d,
+	0xa7, 0x49, 0xaa, 0xae, 0x38, 0x71, 0xf3, 0x37, 0x33, 0x9f, 0xe7, 0xf3, 0x78, 0x66, 0x60, 0x55,
+	0x52, 0x19, 0x67, 0x74, 0x57, 0x73, 0x26, 0x19, 0x71, 0x0d, 0x0a, 0x2f, 0xc1, 0xcb, 0x4b, 0x9a,
+	0xe2, 0x07, 0x2a, 0x29, 0x39, 0x87, 0xb9, 0x06, 0x81, 0x73, 0xe1, 0x6c, 0x57, 0x91, 0x01, 0xe1,
+	0x16, 0x7c, 0x81, 0xd5, 0xf1, 0xb6, 0xa4, 0x79, 0x11, 0xe1, 0x8f, 0x06, 0x85, 0x54, 0x91, 0xa8,
+	0xb0, 0x8e, 0xf4, 0x22, 0x03, 0xc2, 0xef, 0xe0, 0x73, 0x14, 0x28, 0xbf, 0x50, 0x21, 0x4e, 0x46,
+	0x92, 0x00, 0x16, 0x15, 0xde, 0xa9, 0xb8, 0x60, 0xa2, 0xed, 0x16, 0x12, 0x02, 0xb3, 0x8c, 0x8a,
+	0x2c, 0x98, 0x6a, 0xb3, 0x3e, 0x87, 0x1f, 0x61, 0x55, 0xb0, 0x34, 0xaf, 0xec, 0x9d, 0x1b, 0x58,
+	0x36, 0x02, 0xf9, 0x67, 0x5a, 0x62, 0x7b, 0x6d, 0x87, 0x95, 0xaf, 0xa6, 0x42, 0xdc, 0x31, 0x7e,
+	0x6c, 0xaf, 0xee, 0x70, 0x78, 0x03, 0xeb, 0x9f, 0xc8, 0xf3, 0xe4, 0xfe, 0xb4, 0x38, 0x2b, 0x61,
+	0xd2, 0x93, 0xf0, 0x67, 0x02, 0xb3, 0x6f, 0x02, 0xf9, 0xc9, 0xdc, 0xaf, 0xc0, 0x4b, 0x72, 0x2e,
+	0xa4, 0x76, 0x1a, 0xf6, 0x83, 0x41, 0x31, 0x0b, 0xda, 0x3a, 0xcd, 0xeb, 0x3a, 0x3c, 0x50, 0x3d,
+	0x1b, 0xaa, 0x7e, 0x10, 0x39, 0xef, 0x8b, 0x7c, 0x03, 0x6e, 0x8a, 0xd5, 0x11, 0x79, 0xe0, 0x5e,
+	0x38, 0xdb, 0xb3, 0xfd, 0x8b, 0x5d, 0xfb, 0xbf, 0x4a, 0xe5, 0xee, 0x93, 0x76, 0x45, 0x6d, 0x08,
+	0xb9, 0x06, 0xa8, 0x39, 0x26, 0xc8, 0xb1, 0x8a, 0x31, 0x58, 0x3c, 0x4d, 0xe8, 0x85, 0x11, 0x1f,
+	0xa6, 0x87, 0x9c, 0x05, 0x4b, 0x9d, 0x55, 0x1d, 0xbb, 0xc2, 0x78, 0xbd, 0xc2, 0x6c, 0xc1, 0x35,
+	0x5c, 0xb2, 0x84, 0x59, 0x49, 0x0b, 0xf4, 0x9f, 0x11, 0x00, 0x37, 0x41, 0x7d, 0x76, 0x94, 0xf5,
+	0xc0, 0x64, 0xe6, 0x4f, 0xc2, 0x5f, 0x0e, 0xac, 0x63, 0x8e, 0x54, 0xe2, 0xbf, 0xfc, 0xe3, 0x7f,
+	0xac, 0x65, 0x78, 0x09, 0xf3, 0x08, 0xeb, 0xe2, 0x5e, 0xb5, 0x65, 0x89, 0x42, 0xd8, 0x11, 0xf0,
+	0x22, 0x0b, 0xf7, 0xbf, 0xa7, 0xb0, 0x78, 0x1f, 0xc7, 0xac, 0xa9, 0x24, 0xd9, 0x03, 0x98, 0x77,
+	0xe8, 0x86, 0x78, 0x69, 0xeb, 0x38, 0x78, 0xdb, 0x66, 0x6d, 0xcd, 0xe6, 0xe6, 0xb7, 0xb0, 0x4c,
+	0x51, 0x2a, 0x82, 0x78, 0x8a, 0xb1, 0xea, 0x7f, 0xc8, 0x95, 0xa3, 0xd2, 0x98, 0x6e, 0x1d, 0xa6,
+	0x19, 0x74, 0xf0, 0x38, 0xcd, 0x15, 0x78, 0x7a, 0x52, 0x34, 0xe5, 0xdc, 0xfa, 0xfa, 0xc3, 0x33,
+	0x66, 0xbc, 0x03, 0xa2, 0xa6, 0xdb, 0x8c, 0xac, 0x40, 0x79, 0x6b, 0xe6, 0xd3, 0x06, 0x8d, 0x27,
+	0x7f, 0x4c, 0x7f, 0x0d, 0xd0, 0xd4, 0x47, 0x5b, 0x8b, 0xc1, 0x13, 0xc6, 0xa1, 0x37, 0x70, 0x96,
+	0x30, 0x9e, 0x32, 0xbd, 0x1e, 0xf4, 0x6f, 0x74, 0x59, 0xc6, 0x5b, 0xe3, 0x71, 0xf5, 0xcc, 0x96,
+	0xfa, 0xaa, 0xba, 0xe6, 0xb9, 0xf5, 0x75, 0x8b, 0x6b, 0xf3, 0xd8, 0x74, 0x70, 0xf5, 0x9e, 0xbb,
+	0xfe, 0x1b, 0x00, 0x00, 0xff, 0xff, 0xca, 0x05, 0xaf, 0x06, 0xf7, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -414,6 +557,10 @@ type AccountClient interface {
 	GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Account_GetUsersClient, error)
 	VerifyUser(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*Reply, error)
 	LoginUser(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Reply, error)
+	SendPassResetEmail(ctx context.Context, in *SendEmailRequest, opts ...grpc.CallOption) (*Reply, error)
+	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*Reply, error)
+	ForgotPassword(ctx context.Context, in *ResetPassRequest, opts ...grpc.CallOption) (*Reply, error)
+	ImageTest(ctx context.Context, in *ImageData, opts ...grpc.CallOption) (*ImageData, error)
 }
 
 type accountClient struct {
@@ -483,12 +630,52 @@ func (c *accountClient) LoginUser(ctx context.Context, in *LoginRequest, opts ..
 	return out, nil
 }
 
+func (c *accountClient) SendPassResetEmail(ctx context.Context, in *SendEmailRequest, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, "/matcha.Account/sendPassResetEmail", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountClient) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, "/matcha.Account/updateUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountClient) ForgotPassword(ctx context.Context, in *ResetPassRequest, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, "/matcha.Account/forgotPassword", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *accountClient) ImageTest(ctx context.Context, in *ImageData, opts ...grpc.CallOption) (*ImageData, error) {
+	out := new(ImageData)
+	err := c.cc.Invoke(ctx, "/matcha.Account/imageTest", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServer is the server API for Account service.
 type AccountServer interface {
 	CreateUser(context.Context, *CreateRequest) (*Reply, error)
 	GetUsers(*CreateRequest, Account_GetUsersServer) error
 	VerifyUser(context.Context, *VerifyRequest) (*Reply, error)
 	LoginUser(context.Context, *LoginRequest) (*Reply, error)
+	SendPassResetEmail(context.Context, *SendEmailRequest) (*Reply, error)
+	UpdateUser(context.Context, *User) (*Reply, error)
+	ForgotPassword(context.Context, *ResetPassRequest) (*Reply, error)
+	ImageTest(context.Context, *ImageData) (*ImageData, error)
 }
 
 // UnimplementedAccountServer can be embedded to have forward compatible implementations.
@@ -506,6 +693,18 @@ func (*UnimplementedAccountServer) VerifyUser(ctx context.Context, req *VerifyRe
 }
 func (*UnimplementedAccountServer) LoginUser(ctx context.Context, req *LoginRequest) (*Reply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
+}
+func (*UnimplementedAccountServer) SendPassResetEmail(ctx context.Context, req *SendEmailRequest) (*Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendPassResetEmail not implemented")
+}
+func (*UnimplementedAccountServer) UpdateUser(ctx context.Context, req *User) (*Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
+func (*UnimplementedAccountServer) ForgotPassword(ctx context.Context, req *ResetPassRequest) (*Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
+}
+func (*UnimplementedAccountServer) ImageTest(ctx context.Context, req *ImageData) (*ImageData, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ImageTest not implemented")
 }
 
 func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
@@ -587,6 +786,78 @@ func _Account_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Account_SendPassResetEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SendEmailRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).SendPassResetEmail(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matcha.Account/SendPassResetEmail",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).SendPassResetEmail(ctx, req.(*SendEmailRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Account_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matcha.Account/UpdateUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).UpdateUser(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Account_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResetPassRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matcha.Account/ForgotPassword",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).ForgotPassword(ctx, req.(*ResetPassRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Account_ImageTest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ImageData)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).ImageTest(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matcha.Account/ImageTest",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).ImageTest(ctx, req.(*ImageData))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Account_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "matcha.Account",
 	HandlerType: (*AccountServer)(nil),
@@ -602,6 +873,22 @@ var _Account_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "loginUser",
 			Handler:    _Account_LoginUser_Handler,
+		},
+		{
+			MethodName: "sendPassResetEmail",
+			Handler:    _Account_SendPassResetEmail_Handler,
+		},
+		{
+			MethodName: "updateUser",
+			Handler:    _Account_UpdateUser_Handler,
+		},
+		{
+			MethodName: "forgotPassword",
+			Handler:    _Account_ForgotPassword_Handler,
+		},
+		{
+			MethodName: "imageTest",
+			Handler:    _Account_ImageTest_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

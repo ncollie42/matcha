@@ -7,6 +7,10 @@ service Account {
   rpc getUsers (createRequest) returns(stream User);
   rpc verifyUser (verifyRequest) returns(Reply);
   rpc loginUser (loginRequest) returns(Reply);
+  rpc sendPassResetEmail (sendEmailRequest) returns(Reply);
+  rpc updateUser (User) returns (Reply);
+  rpc forgotPassword (resetPassRequest) returns (Reply);
+  rpc imageTest(imageData) returns (imageData);
   // getuser
   // deleteUser
   // updateUser
@@ -15,6 +19,21 @@ service Account {
   // getImage( for when on profile?)
   //   individual functions to eddit??
 }
+
+message imageData {
+  bytes image = 1;
+}
+
+message sendEmailRequest {
+  string email = 1;
+}
+
+message resetPassRequest {
+  string email = 1;
+  string newPass = 2;
+  string hash = 3;
+}
+
 message loginRequest {
   string userName = 1;
   string password = 2;
@@ -37,7 +56,7 @@ message User {
   Gender gender = 6;
   Gender preference = 7;
   string bio = 8;
-
+  string hash = 9;
   //fame rating
   //array of recently view
   //Array of liked people
@@ -58,5 +77,4 @@ message createRequest{
 
 message Reply {
   string message = 1;
-  bool status = 2;
 }

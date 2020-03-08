@@ -2,159 +2,141 @@ package userService
 
 import (
 	"context"
-	"errors"
-	"fmt"
 	pg "github.com/go-pg/pg"
 	generated "hazuki/generated"
+	"io/ioutil"
 	"log"
-	"math/rand"
-	"net/smtp"
-	"os"
-	"time"
-	"unsafe"
 )
 
 type UserService struct{
 	DB *pg.DB
 }
-//Altered version of the genereated struct from protofile
-type PendingUser struct {	//change to pendingUser, add a toString?
-	Id                  int `sql:",:gen_random_uuid()"`
-	UserName            string `sql:",unique"`
-	FirstName           string
-	LastName            string
-	Password            string
-	Email               string `sql:",unique"`
-	Hash				string
-}
 
-type User struct {
-	Id                  int `sql:",:gen_random_uuid()"`
-	UserName            string `sql:",unique"`
-	FirstName           string
-	LastName            string
-	Password            string
-	Email               string `sql:",unique"`
-	Gender              int32
-	Preference          int32
-	Bio                 string
-}
-
-//Return error?
-func userDataisValid(req *generated.CreateRequest) bool {
-	//makesure it's a valid email
-	if req.GetEmail() == "" {
-		return false;
-	}
-	if req.GetFirstName() == "" {
-		return false;
-	}
-	if req.GetLastName() == "" {
-		return false;
-	}
-	if req.GetPassword() == "" {
-		return false;
-	}
-	return true;
-}
-//TODO: make use of error return
-func replyError(location, message string) (*generated.Reply, error) {
-	log.Println(location,": ", message)
-	return &generated.Reply{Message: message, Status: false}, nil
-}
-func (db *UserService) VerifyUser(_ context.Context, req *generated.VerifyRequest) (*generated.Reply, error) {
-	user := new(PendingUser)
-	err := db.DB.Model(user).Where("email = ?", req.GetEmail()).Select()
+func (db *UserService)ImageTest(_ context.Context, tmp *generated.ImageData) (*generated.ImageData, error) {
+	log.Println("Testing image")
+	bb, err := ioutil.ReadFile("./service/pic.png")
 	if err != nil {
-		return replyError("On Verification", "Can't find email")
+		log.Println("Error with image,", err)
 	}
-	if user.Hash == req.Hash {
-		//remove from tmp, add to real user
+	return &generated.ImageData{
+		Image:                bb,
+	}, nil
+}
+
+func (db *UserService) ForgotPassword(_ context.Context, req *generated.ResetPassRequest) (*generated.Reply, error) {
+	ErrorLocation := "On sending reset pass email"
+	email := req.GetEmail()
+	user, err := findUserBy(db,"email", email)
+	if err != nil {
+		return replyError(ErrorLocation, "Can't find email", err)
+	}
+	if req.GetHash() == user.Hash {
+		res, err := db.DB.Model(user).Set("password = ?", req.GetNewPass()).Where("id = ?id").Update()
+		if err != nil {
+			return replyError(ErrorLocation, "Can't update hash", err)
+		}
+		log.Println(res)
+	} else {
+		return replyError(ErrorLocation, "Hash does not match", err)
+	}
+	return &generated.Reply{Message: "Password was changed"}, nil
+}
+
+func (db *UserService) UpdateUser(_ context.Context, user *generated.User) (*generated.Reply, error) {
+	return &generated.Reply{Message: "I've done nothing here yet"}, nil
+}
+
+func (db *UserService) SendPassResetEmail(_ context.Context,req *generated.SendEmailRequest) (*generated.Reply, error) {
+	email := req.GetEmail()
+	user, err := findUserBy(db,"email", email)
+	if err != nil {
+		return replyError("On sending reset pass email", "Can't find email", err)
+	}
+	hash := randomString(40)
+	res, err := db.DB.Model(user).Set("hash = ?", hash).Where("id = ?id").Update()
+	if err != nil {
+		return replyError("On sending reset pass email", "Can't update hash", err)
+	}
+	log.Println(res)
+	sendMail(email, hash, "reset")
+	return &generated.Reply{Message: "Reset email sent"}, nil
+}
+
+func (db *UserService) VerifyUser(_ context.Context, req *generated.VerifyRequest) (*generated.Reply, error) {
+	pendingUser := new(PendingUser)
+	err := db.DB.Model(pendingUser).Where("email = ?", req.GetEmail()).Select()
+	if err != nil {
+		return replyError("On Verification", "Can't find email", err)
+	}
+	//moves user from pending table to user table
+	if pendingUser.Hash == req.Hash {
 		err = db.DB.Insert(&User{
-			UserName:			  user.UserName,
-			FirstName:            user.FirstName,
-			LastName:             user.LastName,
-			Password:             user.Password,
-			Email:                user.Email,
+			UserName:			  pendingUser.UserName,
+			FirstName:            pendingUser.FirstName,
+			LastName:             pendingUser.LastName,
+			Password:             pendingUser.Password,
+			Email:                pendingUser.Email,
 		})
 		if err != nil {
-			return replyError("On Verification", "Can't insert user")
+			return replyError("On Verification", "Can't insert user", err)
 		}
-		_, err = db.DB.Model(user).Where("email = ?", req.GetEmail()).Delete()
+		_, err = db.DB.Model(pendingUser).Where("email = ?", req.GetEmail()).Delete()
 		if err != nil {
-			return replyError("On Verification", "Account has already been verified")
+			return replyError("On Verification", "Account has already been verified", err)
 		}
 	} else {
-		return replyError("On Verification", "Hash values aren't the same")
+		return replyError("On Verification", "Hash values aren't the same", err)
 	}
 	log.Println("Email ", req.GetEmail()," has been verified.")
-	return &generated.Reply{Message: "You're good", Status: true}, nil
+	return &generated.Reply{Message: "You're verified"}, nil
 }
-
-//TODO: change toEmail to actual email
-func sendMail(email, hash string) {
-	gmailSMTP := "smtp.gmail.com:587"
-	fromEmail := "42.matcha.project@gmail.com"
-	pass := os.Getenv("PASS")
-	toEmail := "42.matcha.project@gmail.com" //Update this later to email from arg
-	//toEmail := newUser.GetEmail()
-	msg := []byte("To: recipient@example.net\r\n" +
-		"Subject: Matcha: email confirmation!\n\n" +
-		"\r\n" +
-		"Please click this link to activate your account:\n" +
-		"http://localhost:3000/verify?" + "email=" + email + "&hash=" + hash +
-		".\r\n")
-	auth := smtp.PlainAuth(
-		"",
-		fromEmail,
-		pass,
-		"smtp.gmail.com",
-	)
-	err := smtp.SendMail(gmailSMTP, auth, fromEmail, []string{toEmail}, msg)
-	if err != nil {
-		log.Println("Error sending email", err)
-	}
-}
-
 
 func (db *UserService) CreateUser(ctx context.Context, req *generated.CreateRequest) (*generated.Reply, error) {
+	ErrorLocation := "On user creation"
 	if !userDataisValid(req) {
-		return &generated.Reply{Message: "invalid data", Status: false}, nil
+		return replyError(ErrorLocation, "A field was left empty", nil)
 	}
-	userName := req.GetUserName()
-	email := req.GetEmail()
-	firstName := req.GetFirstName()
-	lastName := req.GetLastName()
-	pass := req.GetPassword()
-	tmp := fmt.Sprintf("Username: %s\nCreated user: %s %s\nEmail: %s\nPassword: %s", userName, firstName, lastName, email, pass)
-	fmt.Println(tmp)
-	hash :=randomString(30)
+	_, err := findUserBy(db,"user_name", req.GetUserName()) //Only checks actual users, not pending
+	if err == nil {
+		return replyError(ErrorLocation, "Username already taken", err)
+	}
+	password, err := HashPassword(req.GetPassword())
+	if err != nil {
+		return replyError(ErrorLocation, "Had problem hasing password", err)
+	}
+
+	hash :=randomString(40)
 	//Add user
-	err := db.DB.Insert(&PendingUser{
-		UserName: userName ,
-		FirstName: firstName,
-		LastName: lastName,
-		Password:  pass,
-		Email:     email,
+	err = db.DB.Insert(&PendingUser{
+		UserName: req.GetUserName() ,
+		FirstName: req.GetFirstName(),
+		LastName: req.GetLastName(),
+		Password:  password,
+		Email:     req.GetEmail(),
 		Hash: hash,
 	})
 	if err != nil {
-		log.Println("Error while adding to creatUser Table", err)
+		return replyError(ErrorLocation,"Error adding user to table", err)
 	}
 	//Send email to user for verification
-	sendMail(email, hash)
-	return &generated.Reply{Message: tmp, Status: true}, nil
+	sendMail(req.GetEmail(), hash, "verify")
+	return &generated.Reply{Message: "user was created"}, nil
 }
+
 func (db *UserService) LoginUser(_ context.Context, login *generated.LoginRequest) (*generated.Reply, error) {
-	if login.GetUserName() == "1" {
-		err := errors.New("THis is my special error")
-		return &generated.Reply{Message: "FAILURE test", Status: false}, err
+	ErrorLocation := "On Login"
+	user, err := findUserBy(db,"user_name", login.GetUserName())
+	if err != nil {
+		return replyError(ErrorLocation, "invalid username or password", err)
 	}
-	return &generated.Reply{Message: "Okay test", Status: true}, nil
+	if !CheckPasswordHash(login.GetPassword(), user.Password)  {
+		return replyError(ErrorLocation, "invalid password", err)
+	}
+	return &generated.Reply{Message: "Username and password match"}, nil
 }
 
 func (db *UserService) GetUsers(_ *generated.CreateRequest,stream generated.Account_GetUsersServer) error {
-	var tmp []generated.CreateRequest //For now it's createRequest
+	var tmp []User //For now it's createRequest
 	db.DB.Model(&tmp).Select()
 	log.Println("Getting", len(tmp), "users:", tmp)
 	for _, person := range tmp {
@@ -163,45 +145,8 @@ func (db *UserService) GetUsers(_ *generated.CreateRequest,stream generated.Acco
 			LastName:             person.LastName,
 			Password:             person.Password,
 			Email:                person.Email,
-			XXX_NoUnkeyedLiteral: struct{}{},
-			XXX_unrecognized:     nil,
-			XXX_sizecache:        0,
 		}
 		stream.Send(ret)
 	}
 	return nil
-}
-////TODO: validate input (no empty field)
-//TODO: Hash password
-//TODO:
-//
-
-
-
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-var src = rand.NewSource(time.Now().UnixNano())
-const (
-	letterIdxBits = 6                    // 6 bits to represent a letter index
-	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
-	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
-)
-/*
-	generates a random string for pending users
-*/
-func randomString(n int) string {
-	b := make([]byte, n)
-	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
-	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
-		if remain == 0 {
-			cache, remain = src.Int63(), letterIdxMax
-		}
-		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
-			b[i] = letterBytes[idx]
-			i--
-		}
-		cache >>= letterIdxBits
-		remain--
-	}
-
-	return *(*string)(unsafe.Pointer(&b))
 }
