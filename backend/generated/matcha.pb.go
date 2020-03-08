@@ -24,6 +24,81 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type User_Gender int32
+
+const (
+	User_male   User_Gender = 0
+	User_female User_Gender = 1
+	User_both   User_Gender = 2
+)
+
+var User_Gender_name = map[int32]string{
+	0: "male",
+	1: "female",
+	2: "both",
+}
+
+var User_Gender_value = map[string]int32{
+	"male":   0,
+	"female": 1,
+	"both":   2,
+}
+
+func (x User_Gender) String() string {
+	return proto.EnumName(User_Gender_name, int32(x))
+}
+
+func (User_Gender) EnumDescriptor() ([]byte, []int) {
+	return fileDescriptor_bb514d74c502fc4f, []int{2, 0}
+}
+
+type LoginRequest struct {
+	UserName             string   `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName,omitempty"`
+	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *LoginRequest) Reset()         { *m = LoginRequest{} }
+func (m *LoginRequest) String() string { return proto.CompactTextString(m) }
+func (*LoginRequest) ProtoMessage()    {}
+func (*LoginRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bb514d74c502fc4f, []int{0}
+}
+
+func (m *LoginRequest) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_LoginRequest.Unmarshal(m, b)
+}
+func (m *LoginRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_LoginRequest.Marshal(b, m, deterministic)
+}
+func (m *LoginRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_LoginRequest.Merge(m, src)
+}
+func (m *LoginRequest) XXX_Size() int {
+	return xxx_messageInfo_LoginRequest.Size(m)
+}
+func (m *LoginRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_LoginRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_LoginRequest proto.InternalMessageInfo
+
+func (m *LoginRequest) GetUserName() string {
+	if m != nil {
+		return m.UserName
+	}
+	return ""
+}
+
+func (m *LoginRequest) GetPassword() string {
+	if m != nil {
+		return m.Password
+	}
+	return ""
+}
+
 type VerifyRequest struct {
 	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
 	Hash                 string   `protobuf:"bytes,2,opt,name=hash,proto3" json:"hash,omitempty"`
@@ -36,7 +111,7 @@ func (m *VerifyRequest) Reset()         { *m = VerifyRequest{} }
 func (m *VerifyRequest) String() string { return proto.CompactTextString(m) }
 func (*VerifyRequest) ProtoMessage()    {}
 func (*VerifyRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{0}
+	return fileDescriptor_bb514d74c502fc4f, []int{1}
 }
 
 func (m *VerifyRequest) XXX_Unmarshal(b []byte) error {
@@ -72,20 +147,24 @@ func (m *VerifyRequest) GetHash() string {
 }
 
 type User struct {
-	FirstName            string   `protobuf:"bytes,1,opt,name=firstName,proto3" json:"firstName,omitempty"`
-	LastName             string   `protobuf:"bytes,2,opt,name=lastName,proto3" json:"lastName,omitempty"`
-	Password             string   `protobuf:"bytes,3,opt,name=password,proto3" json:"password,omitempty"`
-	Email                string   `protobuf:"bytes,4,opt,name=email,proto3" json:"email,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
+	UserName             string      `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName,omitempty"`
+	FirstName            string      `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
+	LastName             string      `protobuf:"bytes,3,opt,name=lastName,proto3" json:"lastName,omitempty"`
+	Password             string      `protobuf:"bytes,4,opt,name=password,proto3" json:"password,omitempty"`
+	Email                string      `protobuf:"bytes,5,opt,name=email,proto3" json:"email,omitempty"`
+	Gender               User_Gender `protobuf:"varint,6,opt,name=gender,proto3,enum=matcha.User_Gender" json:"gender,omitempty"`
+	Preference           User_Gender `protobuf:"varint,7,opt,name=preference,proto3,enum=matcha.User_Gender" json:"preference,omitempty"`
+	Bio                  string      `protobuf:"bytes,8,opt,name=bio,proto3" json:"bio,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}    `json:"-"`
+	XXX_unrecognized     []byte      `json:"-"`
+	XXX_sizecache        int32       `json:"-"`
 }
 
 func (m *User) Reset()         { *m = User{} }
 func (m *User) String() string { return proto.CompactTextString(m) }
 func (*User) ProtoMessage()    {}
 func (*User) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{1}
+	return fileDescriptor_bb514d74c502fc4f, []int{2}
 }
 
 func (m *User) XXX_Unmarshal(b []byte) error {
@@ -105,6 +184,13 @@ func (m *User) XXX_DiscardUnknown() {
 }
 
 var xxx_messageInfo_User proto.InternalMessageInfo
+
+func (m *User) GetUserName() string {
+	if m != nil {
+		return m.UserName
+	}
+	return ""
+}
 
 func (m *User) GetFirstName() string {
 	if m != nil {
@@ -134,6 +220,27 @@ func (m *User) GetEmail() string {
 	return ""
 }
 
+func (m *User) GetGender() User_Gender {
+	if m != nil {
+		return m.Gender
+	}
+	return User_male
+}
+
+func (m *User) GetPreference() User_Gender {
+	if m != nil {
+		return m.Preference
+	}
+	return User_male
+}
+
+func (m *User) GetBio() string {
+	if m != nil {
+		return m.Bio
+	}
+	return ""
+}
+
 type CreateRequest struct {
 	UserName             string   `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName,omitempty"`
 	FirstName            string   `protobuf:"bytes,2,opt,name=firstName,proto3" json:"firstName,omitempty"`
@@ -149,7 +256,7 @@ func (m *CreateRequest) Reset()         { *m = CreateRequest{} }
 func (m *CreateRequest) String() string { return proto.CompactTextString(m) }
 func (*CreateRequest) ProtoMessage()    {}
 func (*CreateRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{2}
+	return fileDescriptor_bb514d74c502fc4f, []int{3}
 }
 
 func (m *CreateRequest) XXX_Unmarshal(b []byte) error {
@@ -207,6 +314,7 @@ func (m *CreateRequest) GetEmail() string {
 
 type Reply struct {
 	Message              string   `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+	Status               bool     `protobuf:"varint,2,opt,name=status,proto3" json:"status,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -216,7 +324,7 @@ func (m *Reply) Reset()         { *m = Reply{} }
 func (m *Reply) String() string { return proto.CompactTextString(m) }
 func (*Reply) ProtoMessage()    {}
 func (*Reply) Descriptor() ([]byte, []int) {
-	return fileDescriptor_bb514d74c502fc4f, []int{3}
+	return fileDescriptor_bb514d74c502fc4f, []int{4}
 }
 
 func (m *Reply) XXX_Unmarshal(b []byte) error {
@@ -244,7 +352,16 @@ func (m *Reply) GetMessage() string {
 	return ""
 }
 
+func (m *Reply) GetStatus() bool {
+	if m != nil {
+		return m.Status
+	}
+	return false
+}
+
 func init() {
+	proto.RegisterEnum("matcha.User_Gender", User_Gender_name, User_Gender_value)
+	proto.RegisterType((*LoginRequest)(nil), "matcha.loginRequest")
 	proto.RegisterType((*VerifyRequest)(nil), "matcha.verifyRequest")
 	proto.RegisterType((*User)(nil), "matcha.User")
 	proto.RegisterType((*CreateRequest)(nil), "matcha.createRequest")
@@ -254,24 +371,31 @@ func init() {
 func init() { proto.RegisterFile("matcha.proto", fileDescriptor_bb514d74c502fc4f) }
 
 var fileDescriptor_bb514d74c502fc4f = []byte{
-	// 272 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x92, 0xc1, 0x4e, 0x83, 0x40,
-	0x10, 0x86, 0xb3, 0x2d, 0xb4, 0x74, 0x52, 0x2e, 0x1b, 0x4d, 0x08, 0xf1, 0xa0, 0x9c, 0x3c, 0x35,
-	0x5a, 0x4f, 0x1e, 0x7d, 0x01, 0x0f, 0x24, 0x3e, 0xc0, 0x88, 0xd3, 0x42, 0x02, 0x82, 0x3b, 0x8b,
-	0xa6, 0x4f, 0xe2, 0x0b, 0xf8, 0xa0, 0x06, 0x96, 0x6d, 0xd9, 0x26, 0xe5, 0xc6, 0xff, 0x0f, 0x3f,
-	0xff, 0xb7, 0xcc, 0xc2, 0xba, 0x42, 0x9d, 0xe5, 0xb8, 0x69, 0x54, 0xad, 0x6b, 0xb9, 0x30, 0x2a,
-	0x79, 0x86, 0xf0, 0x9b, 0x54, 0xb1, 0x3b, 0xa4, 0xf4, 0xd5, 0x12, 0x6b, 0x79, 0x05, 0x3e, 0x55,
-	0x58, 0x94, 0x91, 0xb8, 0x15, 0xf7, 0xab, 0xd4, 0x08, 0x29, 0xc1, 0xcb, 0x91, 0xf3, 0x68, 0xd6,
-	0x9b, 0xfd, 0x73, 0xa2, 0xc0, 0x7b, 0x63, 0x52, 0xf2, 0x06, 0x56, 0xbb, 0x42, 0xb1, 0x7e, 0xc5,
-	0x8a, 0x86, 0xd4, 0xc9, 0x90, 0x31, 0x04, 0x25, 0x0e, 0x43, 0x93, 0x3e, 0xea, 0x6e, 0xd6, 0x20,
-	0xf3, 0x4f, 0xad, 0x3e, 0xa2, 0xb9, 0x99, 0x59, 0x7d, 0xe2, 0xf0, 0x46, 0x1c, 0xc9, 0xaf, 0x80,
-	0x30, 0x53, 0x84, 0x9a, 0x2c, 0x6f, 0x0c, 0x41, 0xcb, 0xa4, 0x46, 0xe5, 0x47, 0xed, 0x92, 0xcd,
-	0xa6, 0xc8, 0xe6, 0x13, 0x64, 0xde, 0x25, 0x32, 0x7f, 0x4c, 0x76, 0x07, 0x7e, 0x4a, 0x4d, 0x79,
-	0x90, 0x11, 0x2c, 0x2b, 0x62, 0xc6, 0xbd, 0xe5, 0xb1, 0x72, 0xfb, 0x27, 0x60, 0xf9, 0x92, 0x65,
-	0x75, 0xfb, 0xa9, 0xe5, 0x16, 0xc0, 0x9c, 0xa3, 0xff, 0x85, 0xd7, 0x9b, 0x61, 0x39, 0xce, 0xd9,
-	0xe2, 0xd0, 0xda, 0xe6, 0xcb, 0x8f, 0x10, 0xec, 0x49, 0x77, 0x01, 0xbe, 0x94, 0x58, 0x5b, 0xbb,
-	0x7b, 0xeb, 0x41, 0x74, 0x35, 0x66, 0xbd, 0x6e, 0x8d, 0xb3, 0xf2, 0xb3, 0x9a, 0xf7, 0x45, 0x7f,
-	0x43, 0x9e, 0xfe, 0x03, 0x00, 0x00, 0xff, 0xff, 0xff, 0xb0, 0xea, 0x15, 0x31, 0x02, 0x00, 0x00,
+	// 383 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xbc, 0x53, 0x4b, 0x6e, 0xea, 0x30,
+	0x14, 0x7d, 0x81, 0x10, 0xc2, 0x15, 0x3c, 0x21, 0x3f, 0x5e, 0x15, 0xa1, 0x0e, 0x50, 0x46, 0x48,
+	0x95, 0x10, 0x85, 0x11, 0xc3, 0x4e, 0xda, 0x59, 0x07, 0x91, 0xba, 0x00, 0x13, 0x6e, 0x3e, 0x52,
+	0x7e, 0xb5, 0x9d, 0x56, 0xac, 0xa4, 0x9b, 0xe8, 0x7a, 0xba, 0x9e, 0xca, 0x76, 0x5c, 0x12, 0x24,
+	0xaa, 0x8e, 0x3a, 0xf3, 0xf1, 0xf1, 0xf1, 0x39, 0xbe, 0xbe, 0x17, 0xc6, 0x39, 0x15, 0x61, 0x42,
+	0x57, 0x15, 0x2b, 0x45, 0x49, 0x1c, 0x8d, 0xfc, 0x7b, 0x18, 0x67, 0x65, 0x9c, 0x16, 0x01, 0x3e,
+	0xd7, 0xc8, 0x05, 0x99, 0x83, 0x5b, 0x73, 0x64, 0x8f, 0x34, 0x47, 0xcf, 0x5a, 0x58, 0xcb, 0x51,
+	0xf0, 0x85, 0x25, 0x57, 0x51, 0xce, 0x5f, 0x4b, 0x76, 0xf0, 0x7a, 0x9a, 0x33, 0xd8, 0xdf, 0xc1,
+	0xe4, 0x05, 0x59, 0x1a, 0x1d, 0xcd, 0x45, 0x33, 0x18, 0x60, 0x4e, 0xd3, 0xac, 0xb9, 0x45, 0x03,
+	0x42, 0xc0, 0x4e, 0x28, 0x4f, 0x1a, 0xb9, 0x5a, 0xfb, 0xef, 0x3d, 0xb0, 0x9f, 0x38, 0xb2, 0x6f,
+	0xbd, 0xaf, 0x61, 0x14, 0xa5, 0x8c, 0x0b, 0x45, 0x6a, 0xf5, 0x69, 0x43, 0x2a, 0x33, 0xda, 0x90,
+	0x7d, 0xad, 0x34, 0xb8, 0x93, 0xda, 0xee, 0xa6, 0x3e, 0x85, 0x1c, 0xb4, 0x43, 0xde, 0x80, 0x13,
+	0x63, 0x71, 0x40, 0xe6, 0x39, 0x0b, 0x6b, 0xf9, 0x77, 0xf3, 0x6f, 0xd5, 0x94, 0x4e, 0xa6, 0x5c,
+	0x3d, 0x28, 0x2a, 0x68, 0x8e, 0x90, 0x2d, 0x40, 0xc5, 0x30, 0x42, 0x86, 0x45, 0x88, 0xde, 0xf0,
+	0xb2, 0xa0, 0x75, 0x8c, 0x4c, 0xa1, 0xbf, 0x4f, 0x4b, 0xcf, 0x55, 0xae, 0x72, 0xe9, 0x2f, 0xc1,
+	0xd1, 0xe7, 0x88, 0x0b, 0x76, 0x4e, 0x33, 0x9c, 0xfe, 0x21, 0x00, 0x4e, 0x84, 0x6a, 0x6d, 0xc9,
+	0xdd, 0x7d, 0x29, 0x92, 0x69, 0xcf, 0x7f, 0xb3, 0x60, 0x12, 0x32, 0xa4, 0x02, 0x7f, 0xf2, 0x67,
+	0xbf, 0x58, 0x37, 0x7f, 0x07, 0x83, 0x00, 0xab, 0xec, 0x48, 0x3c, 0x18, 0xe6, 0xc8, 0x39, 0x8d,
+	0x4d, 0x1e, 0x03, 0xc9, 0x15, 0x38, 0x5c, 0x50, 0x51, 0x73, 0x95, 0xc5, 0x0d, 0x1a, 0xb4, 0xf9,
+	0xb0, 0x60, 0x78, 0x17, 0x86, 0x65, 0x5d, 0x08, 0xb2, 0x01, 0xd0, 0xef, 0x53, 0x4d, 0xf1, 0xdf,
+	0xd4, 0xb2, 0xf3, 0xe6, 0xf9, 0xc4, 0x6c, 0x6b, 0xc7, 0x5b, 0x70, 0x63, 0x14, 0x52, 0xc0, 0x2f,
+	0x29, 0xc6, 0xed, 0x4f, 0x59, 0x5b, 0xd2, 0x46, 0x77, 0x6c, 0xd7, 0xa6, 0xd3, 0xc5, 0xe7, 0x36,
+	0x6b, 0x18, 0xa9, 0x69, 0x51, 0x92, 0x99, 0xe1, 0xda, 0x03, 0x74, 0xa6, 0xd8, 0x3b, 0x6a, 0xdc,
+	0xb6, 0x9f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x60, 0xc9, 0xfd, 0xa4, 0x7e, 0x03, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -289,6 +413,7 @@ type AccountClient interface {
 	CreateUser(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (*Reply, error)
 	GetUsers(ctx context.Context, in *CreateRequest, opts ...grpc.CallOption) (Account_GetUsersClient, error)
 	VerifyUser(ctx context.Context, in *VerifyRequest, opts ...grpc.CallOption) (*Reply, error)
+	LoginUser(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Reply, error)
 }
 
 type accountClient struct {
@@ -349,11 +474,21 @@ func (c *accountClient) VerifyUser(ctx context.Context, in *VerifyRequest, opts 
 	return out, nil
 }
 
+func (c *accountClient) LoginUser(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*Reply, error) {
+	out := new(Reply)
+	err := c.cc.Invoke(ctx, "/matcha.Account/loginUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AccountServer is the server API for Account service.
 type AccountServer interface {
 	CreateUser(context.Context, *CreateRequest) (*Reply, error)
 	GetUsers(*CreateRequest, Account_GetUsersServer) error
 	VerifyUser(context.Context, *VerifyRequest) (*Reply, error)
+	LoginUser(context.Context, *LoginRequest) (*Reply, error)
 }
 
 // UnimplementedAccountServer can be embedded to have forward compatible implementations.
@@ -368,6 +503,9 @@ func (*UnimplementedAccountServer) GetUsers(req *CreateRequest, srv Account_GetU
 }
 func (*UnimplementedAccountServer) VerifyUser(ctx context.Context, req *VerifyRequest) (*Reply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method VerifyUser not implemented")
+}
+func (*UnimplementedAccountServer) LoginUser(ctx context.Context, req *LoginRequest) (*Reply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method LoginUser not implemented")
 }
 
 func RegisterAccountServer(s *grpc.Server, srv AccountServer) {
@@ -431,6 +569,24 @@ func _Account_VerifyUser_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Account_LoginUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LoginRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AccountServer).LoginUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/matcha.Account/LoginUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AccountServer).LoginUser(ctx, req.(*LoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Account_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "matcha.Account",
 	HandlerType: (*AccountServer)(nil),
@@ -442,6 +598,10 @@ var _Account_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "verifyUser",
 			Handler:    _Account_VerifyUser_Handler,
+		},
+		{
+			MethodName: "loginUser",
+			Handler:    _Account_LoginUser_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{

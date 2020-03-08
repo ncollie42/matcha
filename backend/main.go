@@ -21,11 +21,11 @@ func createDBtables(db *pg.DB) {
 		//IfNotExists: true,
 	}
 	fmt.Println("Creating tables")
-	err := db.CreateTable(&generated.User{}, opts)
+	err := db.CreateTable(&user.User{}, opts)
 	if err != nil {
 		log.Println("Error while creating table", err)
 	}
-	err = db.CreateTable(&user.CreateRequest{}, opts)
+	err = db.CreateTable(&user.PendingUser{}, opts)
 	if err != nil {
 		log.Println("Error while creating table", err)
 	}
