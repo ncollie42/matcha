@@ -5,13 +5,15 @@ import (
 	"github.com/go-pg/pg/orm"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	"hazuki/service/createAccountService"
+	"hazuki/service/userService"
+	"hazuki/service/resetPasswordService"
 	"log"
 	"net"
 	"os"
 
 	pg "github.com/go-pg/pg"
 	generated "hazuki/generated"
-	user "hazuki/service"
 )
 
 func createDBtables(db *pg.DB) {
@@ -21,11 +23,11 @@ func createDBtables(db *pg.DB) {
 		//IfNotExists: true,
 	}
 	fmt.Println("Creating tables")
-	err := db.CreateTable(&user.User{}, opts)
+	err := db.CreateTable(&userService.User{}, opts)
 	if err != nil {
 		log.Println("Error while creating table", err)
 	}
-	err = db.CreateTable(&user.PendingUser{}, opts)
+	err = db.CreateTable(&userService.PendingUser{}, opts)
 	if err != nil {
 		log.Println("Error while creating table", err)
 	}
@@ -65,7 +67,9 @@ func main() {
 
 	// grpc server / register service, no Interceptors
 	grpcServer := grpc.NewServer()
-	generated.RegisterAccountServer(grpcServer, &user.UserService{db})
+	generated.RegisterAccountServer(grpcServer, &userService.UserService{db, &userService.Sessions{make(map[string]int)}})
+	generated.RegisterForgotPasswordServer(grpcServer, &resetPasswordService.ResetPasswordService{DB: db})
+	generated.RegisterCreateAccountServer(grpcServer, &createAccountService.CreateAccountService{DB: db})
 	reflection.Register(grpcServer)
 
 	//serve server
