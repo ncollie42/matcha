@@ -39,6 +39,8 @@ message verifyRequest {
 }
 
 service Account {
+  rpc getSelf (empty) returns (User);
+  rpc getUser (User) returns (User);
   rpc getUsers (createRequest) returns(stream User);
   rpc loginUser (loginRequest) returns(Reply);
   rpc updateUser (User) returns (Reply);
@@ -58,6 +60,9 @@ message imageData {
   bytes image = 1;
 }
 
+message empty {
+
+}
 
 
 message loginRequest {

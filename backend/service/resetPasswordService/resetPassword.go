@@ -30,7 +30,6 @@ func (db *ResetPasswordService) SendEmail(_ context.Context,req *generated.SendE
 	return &generated.Reply{Message: "Reset email sent"}, nil
 }
 
-
 func (db *ResetPasswordService) ResetPassword(_ context.Context, req *generated.ResetPassRequest) (*generated.Reply, error) {
 	ErrorLocation := "On sending reset pass email"
 	email := req.GetEmail()
@@ -39,7 +38,16 @@ func (db *ResetPasswordService) ResetPassword(_ context.Context, req *generated.
 		return helper.ReplyError(ErrorLocation, "Can't find email", err)
 	}
 	if req.GetHash() == user.Hash {
-		res, err := db.DB.Model(user).Set("password = ?", req.GetNewPass()).Where("id = ?id").Update()
+		password, err := helper.HashPassword(req.GetNewPass())
+		if err != nil {
+			return helper.ReplyError(ErrorLocation, "Had problem hasing password", err)
+		}
+		hash := helper.RandomString(40)
+		res, err := db.DB.Model(user).Set("hash = ?", hash).Where("id = ?id").Update()
+		if err != nil {
+			return helper.ReplyError(ErrorLocation, "Can't update hash", err)
+		}
+		res, err = db.DB.Model(user).Set("password = ?", password).Where("id = ?id").Update()
 		if err != nil {
 			return helper.ReplyError(ErrorLocation, "Can't update hash", err)
 		}

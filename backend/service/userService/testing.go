@@ -8,6 +8,7 @@ import (
 
 
 func (db *UserService) Test (_ context.Context, login *generated.Reply) (*generated.Reply, error) {
+	arrayTestSearch(db)
 	return &generated.Reply{Message: "I've done nothing here yet"}, nil
 }
 

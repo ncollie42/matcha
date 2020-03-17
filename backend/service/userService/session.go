@@ -13,6 +13,7 @@ func (s *Sessions) startSession(user *User) string {
 	sessionID := helper.RandomString(15)
 	s.Current[sessionID] = user.Id
 	log.Println("Made a session and put it ")
+	log.Println("All sessions:\n", s.Current)
 	return sessionID
 }
 
