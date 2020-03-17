@@ -42,7 +42,7 @@ service Account {
   rpc getSelf (empty) returns (User);
   rpc getUser (User) returns (User);
   rpc getUsers (createRequest) returns(stream User);
-  rpc loginUser (loginRequest) returns(Reply);
+  rpc loginUser (loginRequest) returns(Session);
   rpc updateUser (User) returns (Reply);
   rpc imageTest(imageData) returns (imageData);
   rpc test(Reply) returns (Reply);
@@ -76,13 +76,8 @@ message User {
   string lastName = 3;
   string password = 4;
   string email = 5;
-  enum Gender {
-      male = 0;
-      female = 1;
-      both = 2;
-  }
-  Gender gender = 6;
-  Gender preference = 7;
+  string gender = 6;
+  string preference = 7;
   string bio = 8;
   string hash = 9;
   repeated string tags = 10;
@@ -100,7 +95,10 @@ message User {
 //  google.protobuf.Timestamp created_at = 5;
 //  google.protobuf.Timestamp updated_at = 6;
 }
-
+message Session {
+  int32 userID = 1;
+  string sessionID = 2;
+}
 
 message Reply {
   string message = 1;

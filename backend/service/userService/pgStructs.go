@@ -18,8 +18,8 @@ type User struct {
 	LastName            string
 	Password            string
 	Email               string `sql:",unique"`
-	Gender              int32
-	Preference          int32
+	Gender             	string
+	Preference          string
 	Bio                 string
 	Hash                string
 	Tags                []string

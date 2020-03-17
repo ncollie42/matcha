@@ -39,7 +39,7 @@ func RandomString(n int) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 //----------------------------------------------------------------------
-
+//remove this fuction later
 func ReplyError(location, message string, err error) (*generated.Reply, error) {
 	log.Println(location,":", message," : ", err)
 	newErr := errors.New(message)
