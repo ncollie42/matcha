@@ -67,7 +67,7 @@ func main() {
 
 	// grpc server / register service, no Interceptors
 	grpcServer := grpc.NewServer()
-	generated.RegisterAccountServer(grpcServer, &userService.UserService{db, &userService.Sessions{make(map[string]int)}})
+	generated.RegisterAccountServer(grpcServer, &userService.UserService{db, make(map[string]*userService.SessionInfo)})
 	generated.RegisterForgotPasswordServer(grpcServer, &resetPasswordService.ResetPasswordService{DB: db})
 	generated.RegisterCreateAccountServer(grpcServer, &createAccountService.CreateAccountService{DB: db})
 	reflection.Register(grpcServer)
