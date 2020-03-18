@@ -41,9 +41,11 @@ message verifyRequest {
 service Account {
   rpc getSelf (empty) returns (User);
   rpc getUser (User) returns (User);
+  rpc getUser2 (User2) returns (User2);
   rpc getUsers (createRequest) returns(stream User);
   rpc loginUser (loginRequest) returns(Session);
   rpc updateUser (User) returns (Reply);
+  rpc getImages (imageRequest) returns (stream imageData);
   rpc imageTest(imageData) returns (imageData);
   rpc test(Reply) returns (Reply);
   // getuser
@@ -54,6 +56,11 @@ service Account {
   // session ID
   // getImage( for when on profile?)
   //   individual functions to eddit??
+}
+
+message imageRequest {
+  int64 userID = 1;
+  int32 count = 2;
 }
 
 message imageData {
@@ -71,16 +78,17 @@ message loginRequest {
 }
 
 message User {
-  string userName = 1;
-  string firstName = 2;
-  string lastName = 3;
-  string password = 4;
-  string email = 5;
-  string gender = 6;
-  string preference = 7;
-  string bio = 8;
-  string hash = 9;
-  repeated string tags = 10;
+  int32 id = 1;
+  string userName = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string password = 5;
+  string email = 6;
+  string gender = 7;
+  string preference = 8;
+  string bio = 9;
+  string hash = 10;
+  repeated string tags = 11;
   // @inject_tag: sql:"type:timestamptz,default:now()"
  // google.protobuf.Timestamp created_at = 11;
   // @inject_tag: sql:"type:timestamptz"
@@ -95,6 +103,36 @@ message User {
 //  google.protobuf.Timestamp created_at = 5;
 //  google.protobuf.Timestamp updated_at = 6;
 }
+
+
+message User2 {
+  int32 id = 1;
+  string userName = 2;
+  string firstName = 3;
+  string lastName = 4;
+  string password = 5;
+  string email = 6;
+  string gender = 7;
+  string preference = 8;
+  string bio = 9;
+  string hash = 10;
+  repeated string tags = 11;
+  repeated bytes image = 12;
+  // @inject_tag: sql:"type:timestamptz,default:now()"
+  // google.protobuf.Timestamp created_at = 11;
+  // @inject_tag: sql:"type:timestamptz"
+  // google.protobuf.Timestamp updated_at = 12;
+
+  //fame rating
+  //array of recently view
+  //Array of liked people
+  //array of tags
+  //location
+  //pictures??
+  //  google.protobuf.Timestamp created_at = 5;
+  //  google.protobuf.Timestamp updated_at = 6;
+}
+
 message Session {
   int32 userID = 1;
   string sessionID = 2;

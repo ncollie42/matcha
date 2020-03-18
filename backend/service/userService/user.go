@@ -14,7 +14,7 @@ import (
 
 type UserService struct {
 	DB      *pg.DB
-	Session map[string]*SessionInfo
+	Session map[string]SessionInfo
 }
 
 func (db *UserService) ImageTest(_ context.Context, tmp *generated.ImageData) (*generated.ImageData, error) {
@@ -29,6 +29,7 @@ func (db *UserService) ImageTest(_ context.Context, tmp *generated.ImageData) (*
 }
 
 func (db *UserService) UpdateUser(_ context.Context, user *generated.User) (*generated.Reply, error) {
+	//make sure only session and user match inorder to update user
 	if user.Password != "" {
 		//update
 	}
@@ -37,8 +38,6 @@ func (db *UserService) UpdateUser(_ context.Context, user *generated.User) (*gen
 
 //Logs user in and returns a session ID
 func (db *UserService) LoginUser(ctx context.Context, login *generated.LoginRequest) (*generated.Session, error) {
-	headers, ok := metadata.FromIncomingContext(ctx)
-	log.Println(ok, headers)
 	user, err := FindUserBy(db.DB, "user_name", login.GetUserName())
 	if err != nil {
 		return nil, errors.New("invalid username or password")
@@ -51,17 +50,88 @@ func (db *UserService) LoginUser(ctx context.Context, login *generated.LoginRequ
 	return session, nil
 }
 
-func (db *UserService) GetUser(ctx context.Context, user *generated.User) (*generated.User, error) {
-	headers, ok := metadata.FromIncomingContext(ctx)
-	log.Println(ok, headers)
-	if session_id, ok := headers["session_ID"]; ok {
-		if user_id, ok := db.Session["0"]; ok {
-			log.Println("Got user ID: ", user_id, session_id)
-		}
+func (db *UserService) GetImages(request *generated.ImageRequest, stream generated.Account_GetImagesServer) error {
+	_, err := checkSession(stream.Context(), db)
+	if err != nil {
+		return err
 	}
-	return &generated.User{}, nil
+	count := request.GetCount()
+	bb, err := ioutil.ReadFile("./service/pic.png")
+	if err != nil {
+		log.Println("Error with image,", err)
+	}
+	for count > 0 {
+		//getImages(stream, userID, count) -> goes to user's file, opens file -> send -> count-- -> loop
+		stream.Send(&generated.ImageData{Image: bb})
+		count--
+	}
+	return nil
 }
 
+//get user by id, id 0 will return calling user
+func (db *UserService) GetUser(ctx context.Context, request *generated.User) (*generated.User, error) {
+	session, err := checkSession(ctx, db)
+	if err != nil {
+		return nil, err
+	}
+	user := &User{Id: int(request.Id)}
+	err = db.DB.Select(user)
+	if err != nil {
+		return nil, errors.New("Could not get user")
+	}
+	if session.userID == int(request.Id) {
+		log.Println("Getting self")
+		//Don't add seen stuff and what not
+	}
+	return &generated.User{
+		Id:			int32(user.Id),
+		UserName:   user.UserName,
+		FirstName:  user.FirstName,
+		LastName:   user.LastName,
+		Email:      user.Email,
+		Gender:     user.Gender,
+		Preference: user.Preference,
+		Bio:        user.Bio,
+	}, nil
+}
+
+
+//get user by id, id 0 will return calling user
+func (db *UserService) GetUser2(ctx context.Context, request *generated.User2) (*generated.User2, error) {
+	session, err := checkSession(ctx, db)
+	if err != nil {
+		return nil, err
+	}
+	images := new([][]byte)
+	user := &User{Id: int(request.Id)}
+	err = db.DB.Select(user)
+	if err != nil {
+		return nil, errors.New("Could not get user")
+	}
+	if session.userID == int(request.Id) {
+		log.Println("Getting self")
+		//Don't add seen stuff and what not
+	}
+	//bb, err := ioutil.ReadFile("./service/pic.png")
+	//if err != nil {
+	//	log.Println("Error with image,", err)
+	//}
+	//images[] = append(images[], bb)//
+	return &generated.User2{
+		Id:			int32(user.Id),
+		UserName:   user.UserName,
+		FirstName:  user.FirstName,
+		LastName:   user.LastName,
+		Email:      user.Email,
+		Gender:     user.Gender,
+		Preference: user.Preference,
+		Bio:        user.Bio,
+		Image:		*images,
+	}, nil
+}
+
+
+//Removing this function for getuser later
 func (db *UserService) GetSelf(ctx context.Context, _ *generated.Empty) (*generated.User, error) {
 	session, err := checkSession(ctx, db)
 	if err != nil {
@@ -84,26 +154,23 @@ func (db *UserService) GetSelf(ctx context.Context, _ *generated.Empty) (*genera
 }
 
 //make cleaner, return early - not nested
-func checkSession(ctx context.Context, U *UserService) (*SessionInfo, error) {
-	headers, ok := metadata.FromIncomingContext(ctx)
-	log.Println(ok, headers)
-	sesh := new(SessionInfo)
-	if sessionID, ok := headers["session_id"]; ok {
-		if userID, ok := headers["user_id"]; ok {
-			if sesh, ok = U.Session[userID[0]]; ok {
-				if sesh.sessionID == sessionID[0] {
-					log.Println("Got user ID: ", sessionID)
-				} else {
-					return nil, errors.New("session id is not valid")
-				}
-			} else {
-				return nil, errors.New("No session found for user")
-			}
-		} else {
-			return nil, errors.New("no 'user_id' given")
-		}
-	} else {
-		return nil, errors.New("no 'session_id' given")
+func checkSession(ctx context.Context, U *UserService) (SessionInfo, error) {
+	headers, _ := metadata.FromIncomingContext(ctx)
+	var ok bool
+	var sessionID []string
+	var userID []string
+	sesh := SessionInfo{}
+	if sessionID, ok = headers["session_id"]; !ok {
+		return sesh, errors.New("no 'session_id' given")
+	}
+	if userID, ok = headers["user_id"]; !ok {
+		return sesh, errors.New("no 'user_id' given")
+	}
+	if sesh, ok = U.Session[userID[0]]; !ok {
+		return sesh, errors.New("No session found for user")
+	}
+	if sesh.sessionID != sessionID[0] {
+		return sesh, errors.New("session id is not valid")
 	}
 	return sesh, nil
 }
