@@ -10,7 +10,7 @@ import (
 
 type SessionInfo struct {
 	sessionID string
-	userID int
+	userID int32
 	loginTime time.Time
 }
 
@@ -26,7 +26,7 @@ func (s SessionInfo) String() string {
 func (U *UserService) startSession(user *User) *generated.Session {
 	ok := false
 	sesh := SessionInfo{}
-	if sesh, ok = U.Session[strconv.Itoa(user.Id)]; ok {
+	if sesh, ok = U.Session[strconv.Itoa(int(user.Id))]; ok {
 		sesh.loginTime = time.Now()
 		//update time? location?
 		//session is already here, update it and return sessionID
@@ -37,7 +37,7 @@ func (U *UserService) startSession(user *User) *generated.Session {
 			userID: user.Id,
 			loginTime: time.Now(),
 		}
-		U.Session[strconv.Itoa(user.Id)] = sesh
+		U.Session[strconv.Itoa(int(user.Id))] = sesh
 	}
 	tmp := &generated.Session{
 		UserID:               int32(sesh.userID),

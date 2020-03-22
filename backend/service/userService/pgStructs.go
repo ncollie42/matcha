@@ -12,16 +12,20 @@ type PendingUser struct {	//change to pendingUser, add a toString?
 }
 
 type User struct {
-	Id                  int `sql:",:gen_random_uuid()"`
+	Id                  int32 `sql:",:gen_random_uuid()"`
 	UserName            string `sql:",unique"`
 	FirstName           string
 	LastName            string
 	Password            string
 	Email               string `sql:",unique"`
+	NewEmail            string `sql:",unique"`
 	Gender             	string
 	Preference          string
 	Bio                 string
 	Hash                string
-	Tags                []string
-	Tags2               []string `sql:",array"`
+	Tags                []string `sql:",array"`
+	SeenHistory         []int32 `sql:",array"`
+	PeopleLiked         []int32 `sql:",array"`
+	PeopleBlocked       []int32 `sql:",array"`
+	FameRating			int32 `sql:"default:0"`
 }

@@ -2,6 +2,7 @@ package createAccountService
 
 import (
 	"context"
+	"errors"
 	pg "github.com/go-pg/pg"
 	generated "hazuki/generated"
 	helper "hazuki/service/Helpers"
@@ -40,16 +41,24 @@ func (db *CreateAccountService) Create(_ context.Context, req *generated.CreateR
 		return helper.ReplyError(ErrorLocation,"Error adding user to table", err)
 	}
 	//Send email to user for verification
-	helper.SendMail(req.GetEmail(), hash, "verify")
+	email := req.GetEmail()
+	emailBody := helper.Email{
+		ToEmail: email,
+		Subject: "Email confirmation",
+		Name:    user.FirstName,
+		Message: "Please click this link to activate your account:",
+		Link:    helper.WebsiteIP + "verify" + "?email="+email+"&hash="+hash,
+		Footer:  "",
+	}
+	helper.SendMail(emailBody)
 	return &generated.Reply{Message: "user was created"}, nil
 }
 
 func (db *CreateAccountService) Verify(_ context.Context, req *generated.VerifyRequest) (*generated.Reply, error) {
-	ErrorLocation := "On Verification"
 	pendingUser := new(userService.PendingUser)
 	err := db.DB.Model(pendingUser).Where("email = ?", req.GetEmail()).Select()
-	if err != nil {
-		return helper.ReplyError(ErrorLocation, "Can't find email", err)
+	if isError(err) {
+		return nil, errors.New("Can't find email")
 	}
 	//moves user from pending table to user table
 	if pendingUser.Hash == req.Hash {
@@ -60,16 +69,23 @@ func (db *CreateAccountService) Verify(_ context.Context, req *generated.VerifyR
 			Password:             pendingUser.Password,
 			Email:                pendingUser.Email,
 		})
-		if err != nil {
-			return helper.ReplyError("On Verification", "Can't insert user", err)
+		if isError(err) {
+			return nil, errors.New("Can't insert user")
 		}
 		_, err = db.DB.Model(pendingUser).Where("email = ?", req.GetEmail()).Delete()
-		if err != nil {
-			return helper.ReplyError("On Verification", "Account has already been verified", err)
+		if isError(err) {
+			return nil, errors.New("Accout has already been verified")
 		}
 	} else {
 		return helper.ReplyError("On Verification", "Hash values aren't the same", err)
 	}
 	log.Println("Email ", req.GetEmail()," has been verified.")
 	return &generated.Reply{Message: "You're verified"}, nil
+}
+
+func isError (err error) bool {
+	if err != nil {
+		log.Println(err.Error())
+	}
+	return (err != nil)
 }
