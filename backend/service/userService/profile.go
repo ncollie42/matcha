@@ -41,30 +41,9 @@ func (db *UserService) GetUser(ctx context.Context, request *generated.UserID) (
 		Bio:        user.Bio,
 		Tags:		user.Tags,
 		SeenHistory:user.SeenHistory,
+		Age:        user.Age,
+		Location: 	user.Location,
 	}, nil
-}
-
-//getMultipleProfiles OR browseUsers
-func (db *UserService) GetUsers(_ *generated.CreateRequest, stream generated.Account_GetUsersServer) error {
-
-	var users []User //For now it's createRequest
-	db.DB.Model(&users).Select()
-	log.Println("Getting", len(users), "users:", users)
-	for _, person := range users {
-		ret := &generated.User{
-			Id:                   int32(person.Id),
-			UserName:             person.UserName,
-			FirstName:            person.FirstName,
-			LastName:             person.LastName,
-			Email:                person.Email,
-			Gender:               person.Gender,
-			Preference:           person.Preference,
-			Bio:                  person.Bio,
-			Tags:                 nil,
-		}
-		stream.Send(ret)
-	}
-	return nil
 }
 
 //Non empty values will be updated on the given userID
@@ -97,6 +76,9 @@ func (db *UserService) UpdateUser(ctx context.Context, request *generated.User) 
 	}
 	if request.LastName != "" {
 		newData.LastName = request.LastName
+	}
+	if request.Location != "" {
+		newData.Location = request.Location
 	}
 	if request.Email != "" {
 		newData.NewEmail = request.Email

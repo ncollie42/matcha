@@ -45,7 +45,7 @@ service Account {
   rpc verifyNewEmail (verifyRequest) returns (Reply);
   rpc updateImage (imageData) returns (Reply);
 
-  rpc getUsers (createRequest) returns(stream User);
+  rpc feed (browseRequest) returns(stream User);
 
   rpc loginUser (loginRequest) returns(Session);
 
@@ -59,7 +59,14 @@ service Account {
 
   // deleteUser
 }
-
+message browseRequest {
+    string location = 1;
+    int32 minAge = 2;
+    int32 MaxAge = 3;
+    repeated string tags = 4;
+    int32 minFameRating = 5;
+    int32 MaxFameRating = 6;
+}
 message likedStatus {
   bool bothLiked = 1;
   bool ILiked = 2;
@@ -108,7 +115,9 @@ message User {
   repeated string tags = 11;
   repeated int32 seenHistory = 12;
   int32 fameRating = 13;
-  string test = 15;
+  int32 age = 14;
+  string location = 15;
+  string test = 16;
   // @inject_tag: sql:"type:timestamptz,default:now()"
  // google.protobuf.Timestamp created_at = 11;
   // @inject_tag: sql:"type:timestamptz"

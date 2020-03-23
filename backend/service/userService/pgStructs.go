@@ -27,5 +27,7 @@ type User struct {
 	SeenHistory         []int32 `sql:",array"`
 	PeopleLiked         []int32 `sql:",array"`
 	PeopleBlocked       []int32 `sql:",array"`
-	FameRating			int32 `sql:"default:0"`
+	FameRating			int32 `sql:"default:50"`
+	Age                 int32
+	Location			string
 }
